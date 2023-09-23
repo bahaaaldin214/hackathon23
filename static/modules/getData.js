@@ -1,5 +1,5 @@
-const json = {};
-const text = {};
+// const json = {};
+// const text = {};
 let homeURL = "/";
 
 export function setHomeURL(url){
@@ -133,7 +133,7 @@ function *defineHolder(object, folders){
   return define;
 }
 
-export async function postJson(route, data) {
+export async function postData(route, data) {
 
   return fetch(route, {
     method: 'POST',
@@ -143,6 +143,7 @@ export async function postJson(route, data) {
     body: JSON.stringify(data),
   });
 }
+
 
 export async function getServerJson(route) {
 
