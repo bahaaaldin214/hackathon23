@@ -6,15 +6,30 @@ function randomID(){
 }
 let id = randomID();
 
+function selector(...args){
+    const r = []
+    args.forEach(i => {r.push(document.querySelector(i))})
+    return r
+}
+
 window.onload = function(){
     postData("/updateUser", {id: "myUser", password: "123Hello"}).then((data) => {
         let user = new User(id, data)
     });
 
-    // const askAI = document.querySelector("input");
-    // input.onSumbit(e => {
-    //     e.value
-    // })
+    const [askAI, textBox, chatinput] = selector("form", "#chatoutputarea", "#chatinput");
+    
+    askAI.onsubmit = function(){
+        
+        return false
+    }
+
+    askAI.addEventListener("submit", function(e){
+        console.log(textBox)
+        textBox.appendChild(document.createTextNode("\n" + chatinput.value))
+
+    })
+    
     
 }
 
