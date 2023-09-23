@@ -1,55 +1,43 @@
-body{
+body {
     background-color: #262626;
+    font-size: 16px; /* Set a base font size */
 }
-#webNav{
+
+#webNav {
     background-color: #171717;
+    max-width: 100%; /* Full width for navigation bar */
 }
-#webNavDiv{
-    max-width: 900px;
+
+a.link {
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #880808;
 }
-a.link{
-    font-weight: 500px;
-    font-size: 3e;
-    color: #880808
+
+a.link:hover {
+    font-weight: 800;
+    font-size: 2rem;
+    color: #b61212;
 }
-a.link:hover{
-    font-weight: 800px;
-    font-size: 4e;
-    color: #b61212
+
+#chat {
+    border-radius: 5px;
+    width: 100%; /* Full width for chat container */
 }
-#chat{
-    border-radius: 5;
-}
-@media (min-width: 900px){
-    #chat{
-        width:30vw;
-    }
-    #visual{
-        width:35vw;
-    }
-    #workout{
-        width:30vw;
-    }
-    div.subcontainer{
-        border-width:10px;
-        width: 100px;
+
+@media (min-width: 900px) {
+    #chat, .subcontainer {
+        width: 30%;
     }
 }
-@media (min-width: 12012px){
-    #chat{
-        width:30vw;
+
+@media (min-width: 1200px) {
+    #chatinput {
+        width: 70%; /* Adjust as needed */
+        max-width: 100%; /* Max width relative to parent container */
     }
-    #visual{
-        width:35vw;
-    }
-    #workout{
-        width:30vw;
-    }
-    #chatinput{
-        width: 220px;
-        max-width: 200px;
-    }
-    #chatsubmit{
-        width: 60px;
+
+    #chatsubmit {
+        width: 30%; /* Adjust as needed */
     }
 }

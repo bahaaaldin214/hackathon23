@@ -1,6 +1,7 @@
 import {getJson, setHomeURL, postData, getServerJson} from "./modules/getData.js";
 
 import User from "./modules/user.js"
+console.log("js loaded")
 function randomID(){
     return Math.ceil(Math.random()*1000000) // get a random number betweeen 1 and 1 million
 }
@@ -19,16 +20,19 @@ window.onload = function(){
 
     const [askAI, textBox, chatinput] = selector("form", "#chatoutputarea", "#chatinput");
     
-    askAI.onsubmit = function(){
-        
+    askAI.onsubmit = function(e){
+        e.preventDefault()
+        span = document.createTextNode()
+        span.innerText = "\n" + chatinput.value;
+        textBox.appendChild(span)
+
         return false
     }
 
-    askAI.addEventListener("submit", function(e){
-        console.log(textBox)
-        textBox.appendChild(document.createTextNode("\n" + chatinput.value))
+    // askAI.addEventListener("submit", function(e){
+    //     console.log(textBox)
 
-    })
+    // })
     
     
 }
