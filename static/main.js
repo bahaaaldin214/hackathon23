@@ -22,10 +22,13 @@ window.onload = function(){
     
     askAI.onsubmit = function(e){
         e.preventDefault()
-        span = document.createTextNode()
-        span.innerText = "\n" + chatinput.value;
+        const span = document.createTextNode("span")
+        span.textContent = "\n" + chatinput.value;
         textBox.appendChild(span)
+        chatinput.value = "";
 
+        textBox.y = "";
+        chatoutputarea.scrollTop = chatoutputarea.scrollHeight
         return false
     }
 
