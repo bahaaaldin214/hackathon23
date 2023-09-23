@@ -20,15 +20,36 @@ a.link:hover{
 #chat{
     border-radius: 5;
 }
-div.subcontainer{
-    width:300px;
-    min-width:300px;
-    max-width:300px;
+@media (min-width: 900px){
+    #chat{
+        width:30vw;
+    }
+    #visual{
+        width:35vw;
+    }
+    #workout{
+        width:30vw;
+    }
+    div.subcontainer{
+        border-width:10px;
+        width: 100px;
+    }
 }
-#chatinput{
-    width: 220px;
-    max-width: 200px;
-}
-#chatsubmit{
-    width: 60px;
+@media (min-width: 12012px){
+    #chat{
+        width:30vw;
+    }
+    #visual{
+        width:35vw;
+    }
+    #workout{
+        width:30vw;
+    }
+    #chatinput{
+        width: 220px;
+        max-width: 200px;
+    }
+    #chatsubmit{
+        width: 60px;
+    }
 }
