@@ -8,17 +8,17 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/manageWorkout/")
-def manageWorkout():
-    return render_template("manageWorkout.html")
+@app.route("/manageworkout/")
+def manageworkout():
+    return render_template("manageworkout.html")
 
-# @app.route("/signin/")
-# def manageWorkout():
-#     return render_template("signing.html")
+@app.route("/signin/")
+def signin():
+    return render_template("signin.html")
 
-# @app.route("/about/")
-# def manageWorkout():
-#     return render_template("about.html")
+@app.route("/about/")
+def about():
+ return render_template("about.html")
 
 
 @app.route('/recieveWorkout/<data>')
