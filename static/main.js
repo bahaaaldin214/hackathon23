@@ -24,10 +24,13 @@ window.onload = function(){
         e.preventDefault()
         const span = document.createElement("p");
         span.textContent =  `${chatinput.value}`;
+
+        span.id = "rightAlign"
+
         textBox.appendChild(span);
         chatinput.value = "";
 
-        chatoutputarea.scrollTop = chatoutputarea.scrollHeight
+        chatoutput.scrollTop = chatoutput.scrollHeight
         return false
     }
 

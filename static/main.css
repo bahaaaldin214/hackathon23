@@ -45,5 +45,20 @@ a.link:hover {
 #chatoutput {
     background-color: antiquewhite;
     height: 200px;
+    overflow: auto
+}
+div.scroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow: auto
+}
 
+#leftAlight {
+    text-align: left;
+
+}
+
+#rightAlign { 
+    text-align: right;
+    margin-right: 5px;
 }
