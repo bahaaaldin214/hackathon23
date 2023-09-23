@@ -1,4 +1,4 @@
-import {getJson, setHomeURL, postData, getData, getServerJson} from "./modules/getData.js";
+import {getJson, setHomeURL, postData, getServerJson} from "./modules/getData.js";
 
 import User from "./modules/user.js"
 function randomID(){
@@ -7,7 +7,7 @@ function randomID(){
 let id = randomID();
 
 window.onload = function(){
-    getData("/user", {id: "myUser"}).then(({streak, level}) => {
+    postData("/updateUser", {id: "myUser", password: "123Hello"}).then(({streak, level}) => {
         let user = new User(id, streak, level)
     })
     

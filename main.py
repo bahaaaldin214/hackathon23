@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request
 import json
 
 app = Flask(__name__)
@@ -19,10 +19,12 @@ def recieveWorkout(data):
     return "Saved"
 
 
-@app.route('/updateUser/<user>')
-def updateUser(user):
-    id = user.id
-    password = user.password
+@app.route('/updateUser', methods=["POST"])
+def updateUser():
+    user = request.get_json()
+ 
+    id = user["id"]
+    password = user["password"]
     # data = json.read("people.json")
     # if(password == data[id].password)
     #json file
