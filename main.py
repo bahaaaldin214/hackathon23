@@ -1,5 +1,6 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request
 import json
+import api
 
 app = Flask(__name__)
 
@@ -19,10 +20,12 @@ def recieveWorkout(data):
     return "Saved"
 
 
-@app.route('/updateUser/<user>')
-def updateUser(user):
-    id = user.id
-    password = user.password
+@app.route('/updateUser', methods=["POST"])
+def updateUser():
+    user = request.get_json()
+ 
+    id = user["id"]
+    password = user["password"]
     # data = json.read("people.json")
     # if(password == data[id].password)
     #json file
@@ -37,6 +40,12 @@ def updateUser(user):
         "lastDay": "2020-1-34",
         "other": {},
     }
+
+@app.route('/askAI', methods=["POST"])
+def askAI():
+    prompt = request.get_json()["prompt"]
+
+    return api.userMessage(prompt)
 
 if __name__ == '__main__':
     app.run(debug=False, host='127.0.0.1')

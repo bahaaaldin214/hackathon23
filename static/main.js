@@ -1,4 +1,4 @@
-import {getJson, setHomeURL, postData, getData, getServerJson} from "./modules/getData.js";
+import {getJson, setHomeURL, postData, getServerJson} from "./modules/getData.js";
 
 import User from "./modules/user.js"
 function randomID(){
@@ -7,9 +7,14 @@ function randomID(){
 let id = randomID();
 
 window.onload = function(){
-    getData("/user", {id: "myUser"}).then(({streak, level}) => {
-        let user = new User(id, streak, level)
-    })
+    postData("/updateUser", {id: "myUser", password: "123Hello"}).then((data) => {
+        let user = new User(id, data)
+    });
+
+    // const askAI = document.querySelector("input");
+    // input.onSumbit(e => {
+    //     e.value
+    // })
     
 }
 
