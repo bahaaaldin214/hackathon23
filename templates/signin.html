@@ -12,14 +12,21 @@
 
 <body>
     <h1>MyDelta Sign In</h1>
-    <form id = "signin">
-        <label for="Name">Name:</label>
-        <input type="text" id="Name" name="Name" placeholder="Username" required minlength="3" maxlength="20">
-        <br><br>
-        <label for="Password">Password:</label>
-        <input type="password" id="Password" name="Password" placeholder="Password" required minlength="3" maxlength="20">
-        <button id = "signinbutton">Sign In</button>
-    </form>
+    <div class="container">
+        <div class="form">
+            <h1>Sign In</h1>
+            <form>
+                <div class="input-container">
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+            <p class="alternative">Don't have an account? <a href="#">Sign Up</a></p>
+        </div>
+    </div>
 </body>
 
 </html>
