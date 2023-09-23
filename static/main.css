@@ -1,23 +1,34 @@
+:root{
+    --lightblue: #4A99E8;
+    --mediumblue: #3873AE;
+    --mediumdarkblue: #254D74;
+    --darkblue: #13273A;
+    --black: black;
+    --night: #0E1314;
+    --metal:#1B2527;
+    --grey: #36494E;
+}
+
 body {
-    background-color: #262626;
+    background-color: var(--metal);
     font-size: 16px; /* Set a base font size */
 }
 
 #webNav {
-    background-color: #171717;
+    background-color: var(--night);
     max-width: 100%; /* Full width for navigation bar */
 }
 
 a.link {
     font-weight: 500;
     font-size: 1.5rem;
-    color: #880808;
+    color: var(--mediumdarkblue);
 }
 
 a.link:hover {
     font-weight: 800;
     font-size: 2rem;
-    color: #b61212;
+    color: var(--mediumblue);
 }
 
 #chat {
@@ -35,6 +46,7 @@ a.link:hover {
     #chatinput {
         width: 70%; /* Adjust as needed */
         max-width: 100%; /* Max width relative to parent container */
+        background-color: lightblue;
     }
 
     #chatsubmit {
@@ -43,7 +55,8 @@ a.link:hover {
 }
 
 #chatoutput {
-    background-color: antiquewhite;
+    background-color: var(--lightblue);
+    color: var(--night);
     height: 200px;
     overflow: auto
 }
