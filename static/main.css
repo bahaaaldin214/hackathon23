@@ -17,8 +17,18 @@ a.link:hover{
     font-size: 4e;
     color: #b61212
 }
+#chat{
+    border-radius: 5;
+}
 div.subcontainer{
     width:300px;
     min-width:300px;
     max-width:300px;
+}
+#chatinput{
+    width: 220px;
+    max-width: 200px;
+}
+#chatsubmit{
+    width: 60px;
 }
