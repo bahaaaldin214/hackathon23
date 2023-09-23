@@ -1,3 +1,13 @@
+body{
+    background-color: #262626;
+}
 #webNav{
-    background: #141414;
+    background-color: #171717;
+}
+#webNavDiv{
+    max-width: 900px;
+}
+a.link{
+    font-size: 3e;
+    color: #880808
 }
