@@ -45,7 +45,7 @@ def updateUser():
 def askAI():
     prompt = request.get_json()["prompt"]
 
-    return api.userMessage(prompt)
+    # return api.userMessage(prompt)
 
 if __name__ == '__main__':
     app.run(debug=False, host='127.0.0.1')
