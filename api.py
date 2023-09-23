@@ -5,10 +5,8 @@
 # openai.Model.list()
 
 import requests
-api_key = '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'
+api_key = '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'
 api_url = 'https://api.openai.com/v1/chat/completions'
-
-
 
 def userMessage(prompt):
 
@@ -30,10 +28,10 @@ def userMessage(prompt):
     if response.status_code == 200:
         result = response.json()
         generated_text = result['choices'][0]['message']['content']
-        print(generated_text)
+        return(generated_text)
     else:
         print(f"Error: {response.status_code}\n{response.text}")
         
 
 message = userMessage("Say hello")
-# print(message)
+print(message)
