@@ -42,19 +42,15 @@
 
     </div>
     <div class="container d-flex flex-column flex-md-row justify-content-center justify-content-between text-secondary flex-wrap">
-        <div id="chat" class = "subcontainer container d-inline-flex border border-dark">
+        <div id="chat" class = "subcontainer d-md-inline-block border border-dark">
             <form>
-                <div class="form-group">
-                    <label for="chatinput">Text Input:</label>
-                    <input type="text" class="form-control" id="chatinput" placeholder="Ask Something">
+                <div class="form-group row container-fluid">
+                    <input type="text" class="form-control col-lg" id="chatinput" placeholder="Ask Something">
+                    <button id = "chatsubmit" type="submit" class="btn btn-primary col-sm">Submit</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-             <!--
-            <div id = "chatoutput" class = "d-flex">
-                <textarea name="chatbox" id="chatbox" class = "form-control text-primary bg-dark" aria-valuetext="Ask Something">Ask Something</textarea>
-            </div>
-            -->
+            <textarea id = "chatoutput" rows="4" class = "form-control" readonly>Chat AI Output</textarea>
+            
         </div>
         <div id="visual" class = "subcontainer container d-inline-flex border border-dark">
             <div>
