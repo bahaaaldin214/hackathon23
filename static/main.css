@@ -1,3 +1,4 @@
+/* Set root variables for color pallete and consistency */
 :root{
     --lightblue: #4A99E8;
     --mediumblue: #3873AE;
@@ -9,28 +10,33 @@
     --grey: #36494E;
 }
 
+/* Set background values */
 body {
     background-color: var(--metal);
     font-size: 16px; /* Set a base font size */
 }
 
+/* Target navbar, darker than the rest of the page */
 #webNav {
     background-color: var(--night);
     max-width: 100%; /* Full width for navigation bar */
 }
 
+/* Navbar links */
 a.link {
     font-weight: 500;
     font-size: 1.5rem;
     color: var(--mediumdarkblue);
 }
 
+/* Navbar links on hover */
 a.link:hover {
     font-weight: 800;
     font-size: 2rem;
     color: var(--mediumblue);
 }
 
+/* Container for AI chat */
 #chat {
     border-radius: 5px;
     width: 100%; /* Full width for chat container */
@@ -54,23 +60,28 @@ a.link:hover {
     }
 }
 
+/* Output of chatAI */
 #chatoutput {
-    background-color: var(--lightblue);
+    background-color: whitesmoke;
     color: var(--night);
     height: 200px;
     overflow: auto
 }
+
+/* Scrollbar for divs when text overflows */
 div.scroll {
     overflow-x: hidden;
     overflow-y: auto;
     overflow: auto
 }
 
+/* Left alight id for use in chatbox */
 #leftAlight {
     text-align: left;
 
 }
 
+/* Right alight id for use in chatbox */
 #rightAlign { 
     text-align: right;
     margin-right: 5px;

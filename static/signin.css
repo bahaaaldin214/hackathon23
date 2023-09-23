@@ -1,7 +1,91 @@
+/* Requires main.css preceding this file for variables to be in scope */
 #signinheader{
-    color:aqua
+    color: var(--mediumblue)
 }
 #signincontainer{
 
-    color:rgb(63, 207, 207);
+    color: var(--lightblue)
+}
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define a background color and font for the entire page */
+body {
+    background-color: var(--metal);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+/* Center the sign-in form */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Style the form */
+.form {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+/* Style the header which is above the inputs */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style the input fields and button */
+.input-container {
+    margin-bottom: 15px;
+}
+
+/* Style both input fields */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--mediumdarkblue);
+    border-radius: 4px;
+}
+
+/* Style the button */
+button {
+    background-color: var(--mediumblue);
+    color: var(--black);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Style button on hover, changes color */
+button:hover {
+    background-color: var(--lightblue);
+}
+
+/* Style the "Don't have an account?" link */
+.alternative {
+    margin-top: 15px;
+}
+
+/* Style the link */
+a {
+    text-decoration: none;
+    color: var(--mediumblue);
+}
+
+/* Style the link on hover */
+a:hover {
+    text-decoration: underline;
 }
