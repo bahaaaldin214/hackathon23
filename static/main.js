@@ -18,13 +18,13 @@ window.onload = function(){
         let user = new User(id, data)
     });
 
-    const [askAI, textBox, chatinput] = selector("form", "#chatoutputarea", "#chatinput");
+    const [askAI, textBox, chatinput] = selector("form", "#chatoutput", "#chatinput");
     
     askAI.onsubmit = function(e){
         e.preventDefault()
-        const span = document.createTextNode("p")
-        span.textContent = "\n" + chatinput.value;
-        textBox.appendChild(span)
+        const span = document.createElement("p");
+        span.textContent =  `${chatinput.value}`;
+        textBox.appendChild(span);
         chatinput.value = "";
 
         chatoutputarea.scrollTop = chatoutputarea.scrollHeight
