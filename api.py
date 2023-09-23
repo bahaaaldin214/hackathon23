@@ -33,3 +33,7 @@ def userMessage(prompt):
         print(generated_text)
     else:
         print(f"Error: {response.status_code}\n{response.text}")
+        
+
+message = userMessage("Say hello")
+# print(message)
