@@ -6,7 +6,7 @@
 
 import requests
 api_key = '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'
-api_url = 'https://api.openai.com/v1/chat/completions'
+pi_url = 'https://api.openai.com/v1/chat/completions'
 
 def userMessage(prompt):
 
