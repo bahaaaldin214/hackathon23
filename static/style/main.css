@@ -10,6 +10,10 @@
     --grey: #36494E;
 }
 
+#buffer {
+    display: none;
+}
+
 /* Set background values */
 body {
     background-color: var(--metal);
