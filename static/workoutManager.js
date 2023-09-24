@@ -1,5 +1,5 @@
 // JavaScript code for adding and displaying supersets and exercises
-import { postData } from "./modules/getData";
+import { postData } from "./modules/getData.js";
 
 const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
