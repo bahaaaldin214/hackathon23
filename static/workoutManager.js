@@ -1,23 +1,17 @@
 // JavaScript code for adding and displaying supersets and exercises
 import { postData } from "./modules/getData.js";
 
-const scheduleContainer = document.getElementById('schedule-container');
+const scheduleContainer = document.getElementById('schedule-container2');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
-<<<<<<< HEAD
-const [name, addSupersetE, addExerciseE, submit, privacy] = ["name", "addSuperset", "addExercise", "submit", "privacy"].map(e => document.getElementById(e))
-const Days = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-=======
-const [addSupersetE, addExerciseE] = ["addSuperset", "addExercise"].map(e => document.getElementById(e))
+const [addSupersetE, addExerciseE, toggleScheduleE] = ["addSuperset", "addExercise", "toggleSchedule"].map(e => document.getElementById(e))
 const scheduleSubmitButton = document.querySelector("#submit");
 const exerciseNameBox = document.getElementById("exercise-name");
-const workoutNameBox = document.getElementById("name");
 const exerciseSetBox = document.getElementById("sets");
 const exerciseRepBox = document.getElementById("reps");
 const privacySelector = document.getElementById("privacy");
 
 const Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
->>>>>>> master
 let selectedDay = null;
 let selectedSupersetIndex = null;
 const scheduleData = [[],[],[],[],[],[],[]]; // Store schedule data for different day-superset combinations
@@ -28,7 +22,6 @@ function selectDay(day) {
 
     document.getElementById(day).style.background = "#ccc"
     selectedDay = Days.findIndex(e => e == day);
-
 
     selectedSupersetIndex = null;
     updateTable();
@@ -52,7 +45,7 @@ function addSuperset() {
         exercises: [],
     };
 
-    console.log(scheduleData, selectedDay)
+
     scheduleData[selectedDay].push(newSuperset);
 
     selectedSupersetIndex = scheduleData[selectedDay].length - 1;
@@ -121,6 +114,12 @@ function updateTable() {
                  </tbody>
              `;
         scheduleContainer.appendChild(table);
+
+        // Show the schedule container
+        // scheduleContainer.style.display = 'block';
+    } else {
+        // Hide the schedule container
+        // scheduleContainer.style.display = 'none';
     }
 }
 
@@ -145,17 +144,15 @@ function updateSupersetList() {
     }
 }
 
-<<<<<<< HEAD
-submit.onclick = function(){
-    postData("/postSchedule", {
-        username: localStorage.getItem("username"),
-        password: localStorage.getItem("password"),
-        name: name.value,
-        privacy: privacy.value,
-        scheduleData
-    })
-}
-=======
+// function toggleSchedule() {
+//     if (scheduleContainer.style.display === 'block') {
+//         scheduleContainer.style.display = 'none'; 
+//     } else {
+        scheduleContainer.style.display = 'block'; 
+//     }
+// }
+// toggleScheduleE.onclick = toggleSchedule;
+
 scheduleSubmitButton.addEventListener("click", () => {
     console.log("workout submitted");
     postData("/scheduleData", {
@@ -163,8 +160,7 @@ scheduleSubmitButton.addEventListener("click", () => {
         "password": "testpassword",
         "privacy" : privacySelector.value,
         "workout" : scheduleData,
-        "name" : workoutNameBox.value
+        "name" : exerciseNameBox.innerText
     });
 })
 
->>>>>>> master
