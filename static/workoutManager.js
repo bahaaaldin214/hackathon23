@@ -1,17 +1,13 @@
 // JavaScript code for adding and displaying supersets and exercises
 import { postData } from "./modules/getData.js";
-// import { selector } from "./modules/tools.js";
-function selector(i){
-    
-    return document.querySelector(i)
-}
-const [supersetList, addSupersetE, addExerciseE, submit, privacy, name, scheduleContainer] =[ "#superset-list", "#addSuperset", "#addExercise", "#submit", "#privacy", "#name", ".schedule-container"].map(i => selector(i));
 
-console.log( supersetList)
-
+const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
+const supersetList = document.getElementById('superset-list');
+const [addSupersetE, addExerciseE] = ["addSuperset", "addExercise"].map(e => document.getElementById(e))
+
 const Days = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-let selectedDay = 0;
+let selectedDay = null;
 let selectedSupersetIndex = null;
 const scheduleData = [[],[],[],[],[],[],[]]; // Store schedule data for different day-superset combinations
 
@@ -82,13 +78,14 @@ function addExercise() {
     document.getElementById('reps').value = '';
 }
 
+
 addSupersetE.onclick = addSuperset;
 addExerciseE.onclick = addExercise;
 
 function updateTable() {
     scheduleContainer.innerHTML = '';
 
-    if (selectedDay != null && selectedSupersetIndex != null) {
+    if (selectedDay !== null && selectedSupersetIndex !== null) {
         const daySuperset = scheduleData[selectedDay][selectedSupersetIndex];
 
         const table = document.createElement('table');
