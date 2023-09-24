@@ -113,13 +113,16 @@ def deleteUser(username):
         return 200
 
 # generate new user
-def createUser(username, password): #TODO return 200 somwhere
+def createUser(username, password):
     if not os.path.exists(getUserDir(username)):
         os.mkdir(getUserDir(username))
         with open(getUserDir(username)+personal, "x") as writefile:
             json.dump(generateNewUser(username, password),writefile)
         with open(getUserDir(username)+workouts, "x") as writefile:
             json.dump({},writefile)
+        return 200
+    
+    return 500
 
 # geneate new user personal JSON
 def generateNewUser(username, password):
