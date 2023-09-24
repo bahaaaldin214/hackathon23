@@ -1,3 +1,5 @@
+import { rgbToHex } from "./tools.js";
+
 export default class Display {
     constructor(canvas, bufferCanvas, colors, color, blank) {
         this.context = canvas.getContext("2d");
@@ -23,46 +25,89 @@ export default class Display {
         
         for (let color in colors.back) {
             let src = "/static/assets/"+colors.back[color]+".png";
-            let image = new Image()
+            let image = new Image();
             image.src = src;
             this.colors.back[color] = image;
         }
 
         let images = 0;
-         let handleImage = () => {
+        this.front = true
+        let handleImage = () => {
             images++
             if(images == 2){
                 bufferCanvas.height 
                 bufferCanvas.width  = canvas.width = 2008;
                 bufferCanvas.height  = canvas.height = 1298;
                 
-                bufferCanvas.width 
-                this.image(this.context, blank)
-                this.image(this.buffer, color)
+                bufferCanvas.width;
                 
+        
+                this.button("Rotate", "#4a99e8", () => {
+                    this.front = !this.front;
+                    this.image(this.context, blank);
+                    this.image(this.buffer, color);
+                });
             }
         }
         blank.onload = handleImage;
         color.onload = handleImage;
+
+        this.buttons = {};
         
     }
+
+    button(name, color, call){
+        const w = 500, h = 200;
+        const button = {
+            x: Object.keys(this.buttons)*w,
+            y: this.context.canvas.height - h,
+            w,
+            h,
+            color,
+            name,
+            call
+        }
+        this.buttons[color] = button
+
+        this.drawButton(button, this.context)
+        this.drawButton(button, this.buffer)
+    }
+
+    drawButton({x, y, w, h, color, name}, context){
+        
+        context.fillStyle = color;
+        context.fillRect(x, y, w, h);
+
+        context.fillStyle = "white";
+        context.font = "100px Verdana";
+        context.fillText(name, x, y+100);
+
+    }
+
+
+
     image(ctx, img) {
 
         const scalar = .2
+        const {buttons, front} = this;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        let sx = 0, x = 0;
+        if(front){
+            sx = img.width/2;
+            x = 400;
+        }
+        ctx.drawImage(img, sx, 0, img.width/2, img.height, x, 0, img.width , img.height );
 
-
-        ctx.drawImage(img, 0, 0, img.width/2, img.height, 0, 0, img.width , img.height );
+        for(const button of Object.values(buttons)){
+            this.drawButton(button, ctx);
+        }
         
         //490 for end of left
     }
 
-    update() {
-        // this.conext
-    }
 
     getPixel(event) {
-        const {buffer, context, context: {canvas}} = this;
+        const {buttons, buffer, context, context: {canvas}} = this;
         const viewWidth = canvas.getBoundingClientRect().right - canvas.getBoundingClientRect().left;
         const vewHeigh = canvas.getBoundingClientRect().bottom - canvas.getBoundingClientRect().top;
 
@@ -77,10 +122,15 @@ export default class Display {
         const green = pixelData[1];
         const blue = pixelData[2];
         const str = `${red},${green},${blue}`
+        const hex = rgbToHex(red, green, blue);
+        console.log(hex, buttons)
+        if(buttons[hex]) buttons[hex].call();
 
-        if(this.colors.front[str]){
+
+        const muscle = this.colors.front[str] || this.colors.back[str]
+        if(muscle){
             
-            this.image(context, this.colors.front[str]);
+            this.image(context, muscle);
             return str;
             
         } else {
