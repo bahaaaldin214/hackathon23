@@ -1,14 +1,18 @@
+# TODO decide on syntax for workout objects and develop their handling
+# TODO test all functions and ensure proper functioning
+# TODO 
+
 import json
 import os
 from datetime import date
 
 # local intended function for getting relative path of user directory
 def getUserDir(username):
-    return "data\people\\"+username
+    return "data\\people\\"+username
 
 # local intended function for getting relative path of workout directory
-def getWorkoutDir(name):
-    return "data\workouts\\"+name
+def getWorkoutPath(name):
+    return "data\\public\\workouts\\"+name+".json"
 
 # file names
 personal = "\\personal.json"
@@ -91,8 +95,8 @@ def today():
 
 # retrieve public workout object from name
 def retrievePublicWorkout(name):
-    if os.path.exists(getWorkoutDir(name)):
-        with open(getWorkoutDir(name), "r") as read_file:
+    if os.path.exists(getWorkoutPath(name)):
+        with open(getWorkoutPath(name), "r") as read_file:
             data = json.load(read_file)
             return data
 
@@ -110,6 +114,8 @@ def retrieveAllPrivateWorkouts(username):
 
 # publish a workout if it doesn't already exist to public server, attributed to author
 def publishPublicWorkout(name, workout):
-    if not os.path.exists(getWorkoutDir(name)):
-        with open(getWorkoutDir(name), "x") as write_file:
-            json.dump(workout, write_file)
+    if not os.path.exists(getWorkoutPath(name)):
+        f = open(getWorkoutPath(name), "x")
+        f.close
+    with open(getWorkoutPath(name), "w") as write_file:
+        json.dump(workout, write_file)
