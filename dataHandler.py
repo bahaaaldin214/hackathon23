@@ -91,12 +91,12 @@ def writePrivateWorkout(username, password, name, workout):
     if(validate(username, password)):
         data = useJson(getUserDir(username)+workouts)
         if data != None:
-            data.add({name:workout})
+            data.update({name:workout})
             with open(getUserDir(username)+workouts, "w") as write_file:
                 json.dump(data, write_file)
             return name
         else:
-            data = {str(name):workout}
+            data = {{name:workout}}
             with open(getUserDir(username)+workouts, "w") as write_file:
                 json.dump(data, write_file)
             return name

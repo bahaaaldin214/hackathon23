@@ -7,6 +7,7 @@ const supersetList = document.getElementById('superset-list');
 const [addSupersetE, addExerciseE] = ["addSuperset", "addExercise"].map(e => document.getElementById(e))
 const scheduleSubmitButton = document.querySelector("#submit");
 const exerciseNameBox = document.getElementById("exercise-name");
+const workoutNameBox = document.getElementById("name");
 const exerciseSetBox = document.getElementById("sets");
 const exerciseRepBox = document.getElementById("reps");
 const privacySelector = document.getElementById("privacy");
@@ -145,7 +146,7 @@ scheduleSubmitButton.addEventListener("click", () => {
         "password": "testpassword",
         "privacy" : privacySelector.value,
         "workout" : scheduleData,
-        "name" : exerciseNameBox.innerText
+        "name" : workoutNameBox.value
     });
 })
 
