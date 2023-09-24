@@ -1,6 +1,7 @@
 # TODO decide on syntax for workout objects and develop their handling
 # TODO test all functions and ensure proper functioning
-# TODO 
+# TODO function for changing user personal values
+# TODO function for retrieving all names of different workouts
 
 # example 1: publishing a workout object to public workout directory if it doesnt already exist
 # dataHandler.publishPublicWorkout("name", "workout object")
@@ -67,6 +68,12 @@ def generateExercise(name, sets, reps):
         "reps":reps
     }
     return data
+
+# update a single user field
+def updateUserValue(username, password, field, data):
+    user = retrieveUserPersonal(username, password)
+    if user[field] != None and data != None:
+        user[field] = data
 
 # save user's workout
 def writePrivateWorkout(username, password, workout):
