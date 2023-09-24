@@ -5,7 +5,7 @@
 # openai.Model.list()
 
 import requests
-api_key = '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'
+api_key = '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'
 api_url = 'https://api.openai.com/v1/chat/completions'
 
 def userMessage(prompt):
