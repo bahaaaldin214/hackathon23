@@ -20,6 +20,9 @@ def signin():
 def about():
  return render_template("about.html")
 
+@app.route("/community/")
+def community():
+ return render_template("community.html")
 
 @app.route('/recieveWorkout/<data>')
 def recieveWorkout(data):
