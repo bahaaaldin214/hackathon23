@@ -92,7 +92,7 @@ a.link:hover {
 #chatoutput {
     background-color: whitesmoke;
     color: var(--night);
-    height: 200px;
+    height: 400px;
     overflow: auto;
 }
 
