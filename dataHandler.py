@@ -5,6 +5,9 @@ from datetime import date
 def getUserDir(username):
     return "data\people\\"+username
 
+def getWorkoutDir(name):
+    return "data\workouts\\"+
+
 personal = "\\personal.json"
 workouts = "\\workouts.json"
 
@@ -29,10 +32,18 @@ def retrieveUserWorkouts(username, password):
         return data
     return None
 
+# workout generater
+
 # save user's workout
-def writePrivateWorkout(username, password, id):
-    with open("data_file.json", "w") as write_file:
-        json.dump(data, write_file)
+def writePrivateWorkout(username, password, workout):
+    if(validate(username, password)):
+        data = None
+        with open(getUserDir(username)+workouts, "r") as read_file:
+            data = json.load(read_file)
+        if data != None:
+            data.update(workout)
+            with open(getUserDir(username)+workouts, "w") as write_file:
+                json.dump(data, write_file)
 
 # delete user
 def deleteUser(username):
@@ -69,7 +80,12 @@ def today():
 
 # retrieve public workout from id
 def retrievePublicWorkout(name):
-    pass
+    if os.path.exists(getWorkoutDir(name)):
+        if os.path.exists(getUserDir(username)+personal): 
+            os.remove(getUserDir(username)+personal)
+        if os.path.exists(getUserDir(username)+workouts): 
+            os.remove(getUserDir(username)+workouts)
+        os.rmdir(getUserDir(username))
 
 # retrieve private workout from name
 def retrievePrivateWorkout(name):
