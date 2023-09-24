@@ -48,15 +48,14 @@ def updateUser():
 @app.route('/postSchedule', methods=["POST"])
 def scheduleData():
     data = request.get_json()
- 
     username = data["username"]
     password = data["password"]
     privacy = data["privacy"]
-    workout = data["scheduleData"]
+    workout = data["workout"]
     name = data["name"]
 
     if privacy == "private":
-        return dataHandler.writePrivateWorkout(username, password, workout), 200 #assumes success from handler
+        return dataHandler.writePrivateWorkout(username, password, name, workout)
     else: 
         return dataHandler.publishPublicWorkout(name, workout), 200 #assumes success from handler
     
