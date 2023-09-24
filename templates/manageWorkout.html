@@ -50,8 +50,13 @@
             color: white;
             cursor: pointer;
         }
+        .superset-button {
+            border: none;
+            background: none;
+            color: white;
+            cursor: pointer;
+        }
     </style>
-
 </head>
 
 <body>
@@ -80,6 +85,11 @@
             </ul>
         </div>
         <div class="column">
+            <h2>Add Superset</h2>
+            <button onclick="addSuperset()">Add Superset</button>
+            <div id="superset-list"></div>
+        </div>
+        <div class="column">
             <h2>Exercise Details</h2>
             <label for="exercise-name">Exercise Name:</label>
             <input type="text" id="exercise-name" required>
@@ -87,95 +97,132 @@
             <input type="number" id="sets" required min="0">
             <label for="reps">Reps:</label>
             <input type="number" id="reps" required min="0">
-            <button onclick="addSuperset()">Add Superset</button>
+            <button onclick="addExercise()">Add Exercise</button>
         </div>
         <div class="column">
             <h2>Schedule</h2>
-            <table id="schedule-table">
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Exercise</th>
-                        <th>Sets</th>
-                        <th>Reps</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div id="schedule-container"></div>
         </div>
     </div>
 
     <script>
-        // JavaScript code for adding and displaying supersets in a table
-        const tableBody = document.querySelector('#schedule-table tbody');
+        // JavaScript code for adding and displaying supersets and exercises
+        const scheduleContainer = document.getElementById('schedule-container');
+        const supersetList = document.getElementById('superset-list');
         let selectedDay = null;
-        const dataByDay = {}; // Store supersets data by day
+        let selectedSupersetIndex = null;
+        const scheduleData = {}; // Store schedule data for different day-superset combinations
 
         function selectDay(day) {
             selectedDay = day;
+            selectedSupersetIndex = null;
             updateTable();
         }
 
         function addSuperset() {
+            if (selectedDay === null) {
+                alert('Please select a day first.');
+                return;
+            }
+
+            const newSuperset = {
+                day: selectedDay,
+                exercises: [],
+            };
+
+            if (!(selectedDay in scheduleData)) {
+                scheduleData[selectedDay] = [];
+            }
+
+            scheduleData[selectedDay].push(newSuperset);
+
+            selectedSupersetIndex = scheduleData[selectedDay].length - 1;
+            updateTable();
+            updateSupersetList();
+        }
+
+        function addExercise() {
+            if (selectedSupersetIndex === null || selectedDay === null) {
+                alert('Please select a day and add a superset first.');
+                return;
+            }
+
             const exerciseName = document.getElementById('exercise-name').value;
             const sets = parseInt(document.getElementById('sets').value);
             const reps = parseInt(document.getElementById('reps').value);
 
-            if (!selectedDay || !exerciseName || isNaN(sets) || isNaN(reps) || sets < 0 || reps < 0) {
+            if (!exerciseName || isNaN(sets) || isNaN(reps) || sets < 0 || reps < 0) {
                 alert('Please fill in all fields with valid data.');
                 return;
             }
 
-            // Store the superset data by day
-            if (!dataByDay[selectedDay]) {
-                dataByDay[selectedDay] = [];
-            }
-            dataByDay[selectedDay].push({
+            const exercise = {
                 exerciseName: exerciseName,
                 sets: sets,
                 reps: reps,
-            });
+            };
 
-            // Clear the input fields
+            scheduleData[selectedDay][selectedSupersetIndex].exercises.push(exercise);
+            updateTable();
+
+            // Clear input fields
             document.getElementById('exercise-name').value = '';
             document.getElementById('sets').value = '';
             document.getElementById('reps').value = '';
-
-            // Update the table
-            updateTable();
         }
 
         function updateTable() {
-            // Clear the existing table
-            tableBody.innerHTML = '';
+            scheduleContainer.innerHTML = '';
 
-            // Display the supersets for the selected day
-            if (selectedDay && dataByDay[selectedDay]) {
-                dataByDay[selectedDay].forEach((superset, index) => {
-                    const newRow = document.createElement('tr');
+            if (selectedDay !== null && selectedSupersetIndex !== null) {
+                const daySuperset = scheduleData[selectedDay][selectedSupersetIndex];
 
-                    // Display the day only for the first row
-                    if (index === 0) {
-                        newRow.innerHTML = `
-                            <td rowspan="${dataByDay[selectedDay].length}">${selectedDay}</td>
-                            <td>${superset.exerciseName}</td>
-                            <td>${superset.sets}</td>
-                            <td>${superset.reps}</td>
-                        `;
-                    } else {
-                        newRow.innerHTML = `
-                            <td>${superset.exerciseName}</td>
-                            <td>${superset.sets}</td>
-                            <td>${superset.reps}</td>
-                        `;
-                    }
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Day of the Week</th>
+                            <th>Exercise</th>
+                            <th>Sets</th>
+                            <th>Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${daySuperset.exercises.map((exercise, index) => `
+                            <tr>
+                                ${index === 0 ? `<td rowspan="${daySuperset.exercises.length}">${selectedDay}</td>` : ''}
+                                <td>${exercise.exerciseName}</td>
+                                <td>${exercise.sets}</td>
+                                <td>${exercise.reps}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                scheduleContainer.appendChild(table);
+            }
+        }
 
-                    tableBody.appendChild(newRow);
-                });
+        function updateSupersetList() {
+            // Clear the existing superset list
+            supersetList.innerHTML = '';
+
+            // Display the list of supersets with buttons
+            if (selectedDay in scheduleData) {
+                const supersetsForDay = scheduleData[selectedDay];
+                for (let i = 0; i < supersetsForDay.length; i++) {
+                    const superset = supersetsForDay[i];
+                    const button = document.createElement('button');
+                    button.textContent = `Superset ${i + 1}`;
+                    button.className = 'superset-button';
+                    button.onclick = () => {
+                        selectedSupersetIndex = i;
+                        updateTable();
+                    };
+                    supersetList.appendChild(button);
+                }
             }
         }
     </script>
-    
 </body>
 
 </html>
