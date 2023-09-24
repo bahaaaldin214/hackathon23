@@ -4,7 +4,17 @@ import { makeSpan, selector, colors } from "./modules/tools.js";
 import User from "./modules/user.js"
 import Display from "./modules/display.js"
 
+let username = "";
+let password = "";
 
+if(getCookie("username") != ""){
+    username = getCookie("username");
+    password = getCookie("password");
+}
+
+if(username != ""){
+    document.querySelector("#signinlink").innerHTML=username
+}
 
 window.onload = async function(){
 
@@ -14,8 +24,6 @@ window.onload = async function(){
     }
 
     const [askAI, textBox, chatinput, canvas, buffer] = selector("form", "#chatoutput", "#chatinput", "#canvas", "#buffer");
-    
-
 
     let display, user;
     await postData("/updateUser", {id: "myUser", password: "123Hello"}).then(async (data) => {
@@ -46,8 +54,6 @@ window.onload = async function(){
         presentable.src  = "/static/assets/presentable.png";
 
         display = new Display(canvas, buffer, colors, visual, presentable);
-        
-        
 
     });
     
