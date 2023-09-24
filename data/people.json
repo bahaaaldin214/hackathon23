@@ -4,6 +4,8 @@
         "level": 1,
         "lastDay": "2020-1-34",
         "other": {},
-        "password": "123Hello"
+        "password": "123Hello",
+        "public": [0, 1],
+        "private": [3]
     }
 }
