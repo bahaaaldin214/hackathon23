@@ -1,1 +1,4 @@
 /* Change the color of the about us information */
+#about-div{
+    color: var(--lightblue);
+}
