@@ -2,7 +2,7 @@
 # TODO test all functions and ensure proper functioning
 # TODO function for changing user personal values
 # TODO function for retrieving all names of different workouts
-#TODO use new useJSON method isntead of writing out the whole thing iun every function 
+# TODO use new useJSON method isntead of writing out the whole thing iun every function 
 
 # example 1: publishing a workout object to public workout directory if it doesnt already exist
 # dataHandler.publishPublicWorkout("name", "workout object")
@@ -83,17 +83,24 @@ def updateUserValue(username, password, field, data):
     user = retrieveUserPersonal(username, password)
     if user[field] != None and data != None:
         user[field] = data
+        with open(getUserDir(username)+personal, "w") as write_file:
+                json.dump(data, write_file)
 
 # save user's workout
-def writePrivateWorkout(username, password, workout):
+def writePrivateWorkout(username, password, name, workout):
     if(validate(username, password)):
-        data = None
-        
         data = useJson(getUserDir(username)+workouts)
         if data != None:
-            data.update(workout)
+            data.add({name:workout})
             with open(getUserDir(username)+workouts, "w") as write_file:
                 json.dump(data, write_file)
+            return name
+        else:
+            data = {str(name):workout}
+            with open(getUserDir(username)+workouts, "w") as write_file:
+                json.dump(data, write_file)
+            return name
+    return None
 
 # delete user
 def deleteUser(username):
@@ -109,13 +116,15 @@ def createUser(username, password):
     if not os.path.exists(getUserDir(username)):
         os.mkdir(getUserDir(username))
         with open(getUserDir(username)+personal, "x") as writefile:
-            json.dump(generateNewUser(password),writefile)
+            json.dump(generateNewUser(username, password),writefile)
         with open(getUserDir(username)+workouts, "x") as writefile:
-            pass
+            json.dump({},writefile)
 
 # geneate new user personal JSON
-def generateNewUser(password):
-    user = {"streak": "1",
+def generateNewUser(username, password):
+    user = {
+        "username": username,
+        "streak": "1",
         "level": "1",
         "lastDay": today(),
         "password": password,
@@ -153,3 +162,4 @@ def publishPublicWorkout(name, workout):
         f.close
     with open(getWorkoutPath(name), "w") as write_file:
         json.dump(workout, write_file)
+    return name

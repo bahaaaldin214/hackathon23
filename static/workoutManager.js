@@ -5,8 +5,13 @@ const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
 const [addSupersetE, addExerciseE] = ["addSuperset", "addExercise"].map(e => document.getElementById(e))
+const scheduleSubmitButton = document.querySelector("#submit");
+const exerciseNameBox = document.getElementById("exercise-name");
+const exerciseSetBox = document.getElementById("sets");
+const exerciseRepBox = document.getElementById("reps");
+const privacySelector = document.getElementById("privacy");
 
-const Days = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+const Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 let selectedDay = null;
 let selectedSupersetIndex = null;
 const scheduleData = [[],[],[],[],[],[],[]]; // Store schedule data for different day-superset combinations
@@ -33,7 +38,7 @@ function addSuperset() {
     if (selectedDay === null) {
         alert('Please select a day first.');
         return;
-    }
+    };
 
     const newSuperset = {
         day: selectedDay,
@@ -54,7 +59,7 @@ function addExercise() {
         return;
     }
 
-    const exerciseName = document.getElementById('exercise-name').value;
+    const exerciseName = exerciseNameBox.value;
     const sets = parseInt(document.getElementById('sets').value);
     const reps = parseInt(document.getElementById('reps').value);
 
@@ -77,7 +82,6 @@ function addExercise() {
     document.getElementById('sets').value = '';
     document.getElementById('reps').value = '';
 }
-
 
 addSupersetE.onclick = addSuperset;
 addExerciseE.onclick = addExercise;
@@ -133,4 +137,15 @@ function updateSupersetList() {
         }
     }
 }
+
+scheduleSubmitButton.addEventListener("click", () => {
+    console.log("workout submitted");
+    postData("/scheduleData", {
+        "username": "testuser",
+        "password": "testpassword",
+        "privacy" : privacySelector.value,
+        "workout" : scheduleData,
+        "name" : exerciseNameBox.innerText
+    });
+})
 
