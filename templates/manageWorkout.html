@@ -11,7 +11,7 @@
     <style>
         /* Add your CSS styling here */
         .schedule-container {
-            display: flex;
+            display: none;
             flex-direction: row;
             margin: 20px;
             padding: 20px;
@@ -70,8 +70,10 @@
             <a class="link" href="/signin">Sign In</a>
         </div>
     </nav>
-  
-    <div class="schedule-container">
+    
+    <button id="toggleSchedule">Create Workout Schedule</button>
+
+    <div class="schedule-container" id="schedule-container">
         <div class="column">
             <h2>Days of the Week</h2>
             <ul>
@@ -101,9 +103,10 @@
         </div>
         <div class="column">
             <h2>Schedule</h2>
-            <div id="schedule-container"></div>
+            <div id="schedule-container2"></div>
         </div>
     </div>
+
     <label for="name">Name:</label>
     <input  id="name" required>
     <label for="privacy">Select privacy:</label>
