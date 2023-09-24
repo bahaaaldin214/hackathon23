@@ -1,4 +1,9 @@
 {
+    "workouts": [
+        "Bench Presss",
+        "Back sqaut",
+        "Push up"
+    ],
     "public": [
        {
          "days": [
