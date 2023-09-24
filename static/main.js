@@ -15,6 +15,16 @@ function selector(...args){
     return r
 }
 
+function makeSpan(text, className){
+    const span = document.createElement("p");
+
+    span.textContent =  `${text}`; //can customize furthor
+
+    span.class = className;
+
+    return span;
+}
+
 window.onload = function(){
 
     const [askAI, textBox, chatinput, canvas, buffer] = selector("form", "#chatoutput", "#chatinput", "#canvas", "#buffer"),
@@ -33,7 +43,7 @@ window.onload = function(){
             "186,0,255": "Glutes",
             "255,0,216": "Calvas"
         }
-    } ;
+    };
 
     postData("/updateUser", {id: "myUser", password: "123Hello"}).then((data) => {
     
@@ -41,30 +51,39 @@ window.onload = function(){
         const user = new User(id, data, colors),
         display = new Display(canvas, buffer, colors);
 
-        display.image("/assets/visual.png", "")
+        display.image("/assets/visual.png", "/assets/presentable.png")
 
     });
     
-    
-    askAI.onsubmit = function(e){
+    let aiBusy = false;
+
+
+    function pushPrompt(e){
+        aiBusy = true;
         e.preventDefault()
-        const span = document.createElement("p"),
-        value = chatinput.value;
-
-        span.textContent =  `${chatinput.value}`; //can customize furthor
-
-        span.id = "rightAlign";
-
-        textBox.appendChild(span);
+        
+        
+        textBox.appendChild(makeSpan(chatinput.value, "rightAlign"));
         chatinput.value = "";
 
-        postData("/askAI", value).then(r => {
-
+        postData("/askAI", {prompt: chatinput.value})
+        .then(response => response.json())
+        .then(r => {
+            
+            textBox.appendChild(makeSpan(r.msg, "leftAlign"));
+            aiBusy = false;
         });
 
         chatoutput.scrollTop = chatoutput.scrollHeight;
         return false
+    
     }
+
+    // askAI.onsubmit = function(e){
+    //     if(!aiBusy){
+    //         pushPrompt(e)
+    //     }
+    // }
 
     // askAI.addEventListener("submit", function(e){
     //     console.log(textBox)

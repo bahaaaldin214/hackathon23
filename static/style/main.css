@@ -80,13 +80,22 @@ div.scroll {
 }
 
 /* Left alight id for use in chatbox */
-#leftAlight {
+/* CSS for left-aligned (received) messages */
+.leftAlign {
     text-align: left;
-
+    background-color: #E0FFE0; /* Green background color */
+    border-radius: 10px; /* Rounded corners for the bubble */
+    padding: 10px; /* Add padding for better spacing */
+    margin-bottom: 10px; /* Add margin for spacing between messages */
+    max-width: 70%; /* Adjust the maximum width as needed */
 }
 
-/* Right alight id for use in chatbox */
-#rightAlign { 
+/* CSS for right-aligned (sent) messages */
+.rightAlign {
     text-align: right;
-    margin-right: 5px;
+    background-color: #C0C0FF; /* Blue background color */
+    border-radius: 10px; /* Rounded corners for the bubble */
+    padding: 10px; /* Add padding for better spacing */
+    margin-bottom: 10px; /* Add margin for spacing between messages */
+    max-width: 70%; /* Adjust the maximum width as needed */
 }
