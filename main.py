@@ -36,6 +36,12 @@ def recieveWorkout(data):
 
     return "Saved"
 
+@app.route('/createAccount', methods=["POST"])
+def createAccount():
+    data = request.get_json()
+    user = data["username"]
+    password = data["password"]
+    return dataHandler.createUser(user, password)
 
 @app.route('/updateUser', methods=["POST"])
 def updateUser():

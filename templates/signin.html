@@ -23,10 +23,16 @@
                 <div class="input-container">
                     <input type="password" id="password" placeholder="Password" required>
                 </div>
+                <div class="input-container">
+                    <input type="password" id="confirm" placeholder="Password" required value = "Confirm" class = "hidden">
+                </div>
                 <button type="submit" id = "signin">Sign In</button>
             </form>
+            <br>
             <button id = "signout" class = "hidden">Sign Out</button>
-            <p class="alternative">Don't have an account? <a href="#">Sign Up</a></p>
+            <br>
+            <button id = "signupbutton" class = "hidden">Sign Up</button>
+            <p class="alternative">Don't have an account? <button id = "signup" class = "btn-sm">Sign Up</button></p>
         </div>
     </div>
 </body>
