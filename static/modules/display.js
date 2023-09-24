@@ -47,6 +47,8 @@ export default class Display {
                     this.image(this.context, blank);
                     this.image(this.buffer, color);
                 });
+                this.image(this.context, blank);
+                this.image(this.buffer, color);
             }
         }
         blank.onload = handleImage;
