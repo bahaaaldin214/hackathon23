@@ -30,22 +30,6 @@ window.onload = async function(){
     
         //use colors to make muscle group object with informations on it
         user = new User("1", data, colors);
-        
-
-        // fetch("/static/assets/visual.png")
-        // .then(src => {
-        //     const image = new Image();
-        //     // image.src = src;
-        // })
-        // .catch(error => {
-        //     // Handle any errors that occurred during the fetch
-        //     console.error("Fetch error:", error);
-        // });
-        // const presentable = fetch("/static/assets/presentable.png")
-        // .catch(error => {
-        //     // Handle any errors that occurred during the fetch
-        //     console.error("Fetch error:", error);
-        // });
 
         const visual = new Image();
         visual.src  = "/static/assets/visual.png";

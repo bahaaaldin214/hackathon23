@@ -8,6 +8,15 @@ function selector(...args) {
     return r
 }
 
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+  
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }
+
 function makeSpan(text, className) {
     const span = document.createElement("p");
 
@@ -35,14 +44,8 @@ const colors = {
     }
 };
 
-export {
-    randomID,
-    selector,
-    makeSpan,
-    colors
-}
 
-export function getCookie(cookie) {
+ function getCookie(cookie) {
     let name = cookie + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -56,4 +59,13 @@ export function getCookie(cookie) {
         }
     }
     return "";
+}
+
+export {
+    randomID,
+    selector,
+    makeSpan,
+    colors,
+    getCookie,
+    rgbToHex
 }
