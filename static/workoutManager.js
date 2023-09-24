@@ -5,7 +5,6 @@ const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
 const [name, addSupersetE, addExerciseE, submit, privacy] = ["name", "addSuperset", "addExercise", "submit", "privacy"].map(e => document.getElementById(e))
-
 const Days = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 let selectedDay = null;
 let selectedSupersetIndex = null;
