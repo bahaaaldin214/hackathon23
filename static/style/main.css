@@ -12,7 +12,17 @@
 .visual {
     height: 100%;
 }
-
+table {
+    width: 100%;
+}
+table, th, td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 10px;
+}
+th, td {
+    text-align: left;
+}
 .leaderboard {
     padding: 10px; /* Add some padding for spacing */
 }
