@@ -41,7 +41,7 @@ window.onload = function(){
         const user = new User(id, data, colors),
         display = new Display(canvas, buffer, colors);
 
-        
+        display.image("/assets/visual.png", "")
 
     });
     

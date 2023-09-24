@@ -9,32 +9,54 @@
     <link rel="stylesheet" href="/static/style/main.css">
     <script type="module" src="/static/main.js"></script>
     <style>
-      /* Add your CSS styling here */
-      .schedule-container {
-          display: flex;
-          flex-direction: row;
-          margin: 20px;
-          padding: 20px;
-          border: 1px solid #ccc;
-          color: white; /* Text color set to white */
-      }
-      .column {
-          flex: 1;
-          padding: 10px;
-      }
-      table {
-          width: 100%;
-      }
-      table, th, td {
-          border: 1px solid #ccc;
-          border-collapse: collapse;
-          padding: 10px;
-      }
-      th, td {
-          text-align: left;
-      }
-  </style>
-
+        /* Add your CSS styling here */
+        .schedule-container {
+            display: flex;
+            flex-direction: row;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            color: white; /* Text color set to white */
+        }
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        th, td {
+            text-align: left;
+        }
+        select, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none; /* Remove bullet points from the list */
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .day-button {
+            border: none;
+            background: none;
+            color: white;
+            cursor: pointer;
+        }
+        .superset-button {
+            border: none;
+            background: none;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -51,98 +73,156 @@
   
     <div class="schedule-container">
         <div class="column">
-            <h2>Schedule for Gym</h2>
-            <label for="day-dropdown">Select a Day:</label>
-            <select id="day-dropdown">
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
-            </select>
-            <br><br>
-            <form id="exercise-form">
-                <label for="exercise-name">Exercise Name:</label>
-                <input type="text" id="exercise-name" required><br><br>
-                <label for="sets">Sets:</label>
-                <input type="number" id="sets" required><br><br>
-                <label for="reps">Reps:</label>
-                <input type="number" id="reps" required><br><br>
-                <button type="submit">Add Superset</button>
-            </form>
+            <h2>Days of the Week</h2>
+            <ul>
+                <li><button class="day-button" onclick="selectDay('Monday')">Monday</button></li>
+                <li><button class="day-button" onclick="selectDay('Tuesday')">Tuesday</button></li>
+                <li><button class="day-button" onclick="selectDay('Wednesday')">Wednesday</button></li>
+                <li><button class="day-button" onclick="selectDay('Thursday')">Thursday</button></li>
+                <li><button class="day-button" onclick="selectDay('Friday')">Friday</button></li>
+                <li><button class="day-button" onclick="selectDay('Saturday')">Saturday</button></li>
+                <li><button class="day-button" onclick="selectDay('Sunday')">Sunday</button></li>
+            </ul>
         </div>
         <div class="column">
-            <table id="schedule-table">
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Exercise</th>
-                        <th>Sets</th>
-                        <th>Reps</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <h2>Add Superset</h2>
+            <button onclick="addSuperset()">Add Superset</button>
+            <div id="superset-list"></div>
+        </div>
+        <div class="column">
+            <h2>Exercise Details</h2>
+            <label for="exercise-name">Exercise Name:</label>
+            <input type="text" id="exercise-name" required>
+            <label for="sets">Sets:</label>
+            <input type="number" id="sets" required min="0">
+            <label for="reps">Reps:</label>
+            <input type="number" id="reps" required min="0">
+            <button onclick="addExercise()">Add Exercise</button>
+        </div>
+        <div class="column">
+            <h2>Schedule</h2>
+            <div id="schedule-container"></div>
         </div>
     </div>
 
     <script>
-        // JavaScript code for adding, displaying, and sorting supersets in a table
-        const form = document.getElementById('exercise-form');
-        const tableBody = document.querySelector('#schedule-table tbody');
-        let tableData = [];
+        // JavaScript code for adding and displaying supersets and exercises
+        const scheduleContainer = document.getElementById('schedule-container');
+        const supersetList = document.getElementById('superset-list');
+        let selectedDay = null;
+        let selectedSupersetIndex = null;
+        const scheduleData = {}; // Store schedule data for different day-superset combinations
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+        function selectDay(day) {
+            selectedDay = day;
+            selectedSupersetIndex = null;
+            updateTable();
+        }
 
-            const day = document.getElementById('day-dropdown').value;
-            const exerciseName = document.getElementById('exercise-name').value;
-            const sets = document.getElementById('sets').value;
-            const reps = document.getElementById('reps').value;
+        function addSuperset() {
+            if (selectedDay === null) {
+                alert('Please select a day first.');
+                return;
+            }
 
-            const rowData = {
-                day: day,
-                exerciseName: exerciseName,
-                sets: sets,
-                reps: reps
+            const newSuperset = {
+                day: selectedDay,
+                exercises: [],
             };
 
-            tableData.push(rowData);
+            if (!(selectedDay in scheduleData)) {
+                scheduleData[selectedDay] = [];
+            }
 
-            // Automatically sort and update the table
+            scheduleData[selectedDay].push(newSuperset);
+
+            selectedSupersetIndex = scheduleData[selectedDay].length - 1;
+            updateTable();
+            updateSupersetList();
+        }
+
+        function addExercise() {
+            if (selectedSupersetIndex === null || selectedDay === null) {
+                alert('Please select a day and add a superset first.');
+                return;
+            }
+
+            const exerciseName = document.getElementById('exercise-name').value;
+            const sets = parseInt(document.getElementById('sets').value);
+            const reps = parseInt(document.getElementById('reps').value);
+
+            if (!exerciseName || isNaN(sets) || isNaN(reps) || sets < 0 || reps < 0) {
+                alert('Please fill in all fields with valid data.');
+                return;
+            }
+
+            const exercise = {
+                exerciseName: exerciseName,
+                sets: sets,
+                reps: reps,
+            };
+
+            scheduleData[selectedDay][selectedSupersetIndex].exercises.push(exercise);
             updateTable();
 
-            form.reset();
-        });
+            // Clear input fields
+            document.getElementById('exercise-name').value = '';
+            document.getElementById('sets').value = '';
+            document.getElementById('reps').value = '';
+        }
 
         function updateTable() {
-            // Clear the existing table
-            tableBody.innerHTML = '';
+            scheduleContainer.innerHTML = '';
 
-            // Define the desired order of days of the week
-            const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            if (selectedDay !== null && selectedSupersetIndex !== null) {
+                const daySuperset = scheduleData[selectedDay][selectedSupersetIndex];
 
-            // Sort the tableData array based on the order of days
-            tableData.sort((a, b) => {
-                return daysOrder.indexOf(a.day) - daysOrder.indexOf(b.day);
-            });
-
-            // Add sorted data to the table
-            tableData.forEach((rowData) => {
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>${rowData.day}</td>
-                    <td>${rowData.exerciseName}</td>
-                    <td>${rowData.sets}</td>
-                    <td>${rowData.reps}</td>
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Day of the Week</th>
+                            <th>Exercise</th>
+                            <th>Sets</th>
+                            <th>Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${daySuperset.exercises.map((exercise, index) => `
+                            <tr>
+                                ${index === 0 ? `<td rowspan="${daySuperset.exercises.length}">${selectedDay}</td>` : ''}
+                                <td>${exercise.exerciseName}</td>
+                                <td>${exercise.sets}</td>
+                                <td>${exercise.reps}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
                 `;
-                tableBody.appendChild(newRow);
-            });
+                scheduleContainer.appendChild(table);
+            }
+        }
+
+        function updateSupersetList() {
+            // Clear the existing superset list
+            supersetList.innerHTML = '';
+
+            // Display the list of supersets with buttons
+            if (selectedDay in scheduleData) {
+                const supersetsForDay = scheduleData[selectedDay];
+                for (let i = 0; i < supersetsForDay.length; i++) {
+                    const superset = supersetsForDay[i];
+                    const button = document.createElement('button');
+                    button.textContent = `Superset ${i + 1}`;
+                    button.className = 'superset-button';
+                    button.onclick = () => {
+                        selectedSupersetIndex = i;
+                        updateTable();
+                    };
+                    supersetList.appendChild(button);
+                }
+            }
         }
     </script>
-    
 </body>
 
 </html>
