@@ -1,4 +1,17 @@
 /* Change the color of the about us information */
 #about-div{
     color: var(--lightblue);
+    text-align:center;
+}
+div.row > .column > .card{
+    background-color: var(--night);
+}
+#header{
+    color: grey;
+}
+#abouttext{
+    color:lightgray;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
