@@ -4,18 +4,20 @@ import { postData } from "./modules/getData.js";
 const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
-"addSuperset"
+const [addSupersetE, addExerciseE] = ["addSuperset", "addExercise"].map(e => document.getElementById(e))
 
+const Days = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 let selectedDay = null;
 let selectedSupersetIndex = null;
-const scheduleData = {}; // Store schedule data for different day-superset combinations
+const scheduleData = [[],[],[],[],[],[],[]]; // Store schedule data for different day-superset combinations
 
 function selectDay(day) {
-    console.log(day)
+
     days.forEach(day => day.style.background = "none");
 
     document.getElementById(day).style.background = "#ccc"
-    selectedDay = day;
+    selectedDay = Days.findIndex(e => e == day);
+    console.log(selectedDay)
     selectedSupersetIndex = null;
     updateTable();
     updateSupersetList();
@@ -38,9 +40,6 @@ function addSuperset() {
         exercises: [],
     };
 
-    if (!(selectedDay in scheduleData)) {
-        scheduleData[selectedDay] = [];
-    }
 
     scheduleData[selectedDay].push(newSuperset);
 
@@ -79,6 +78,10 @@ function addExercise() {
     document.getElementById('reps').value = '';
 }
 
+
+addSupersetE.onclick = addSuperset;
+addExerciseE.onclick = addExercise;
+
 function updateTable() {
     scheduleContainer.innerHTML = '';
 
@@ -115,7 +118,7 @@ function updateSupersetList() {
     supersetList.innerHTML = '';
 
     // Display the list of supersets with buttons
-    if (selectedDay in scheduleData) {
+    if ( scheduleData[selectedDay]) {
         const supersetsForDay = scheduleData[selectedDay];
         for (let i = 0; i < supersetsForDay.length; i++) {
             const superset = supersetsForDay[i];
@@ -130,3 +133,7 @@ function updateSupersetList() {
         }
     }
 }
+
+setInterval(() => {
+    console.log(JSON.stringify(scheduleData))
+}, 1000)
