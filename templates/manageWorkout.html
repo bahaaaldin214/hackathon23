@@ -9,31 +9,48 @@
     <link rel="stylesheet" href="/static/style/main.css">
     <script type="module" src="/static/main.js"></script>
     <style>
-      /* Add your CSS styling here */
-      .schedule-container {
-          display: flex;
-          flex-direction: row;
-          margin: 20px;
-          padding: 20px;
-          border: 1px solid #ccc;
-          color: white; /* Text color set to white */
-      }
-      .column {
-          flex: 1;
-          padding: 10px;
-      }
-      table {
-          width: 100%;
-      }
-      table, th, td {
-          border: 1px solid #ccc;
-          border-collapse: collapse;
-          padding: 10px;
-      }
-      th, td {
-          text-align: left;
-      }
-  </style>
+        /* Add your CSS styling here */
+        .schedule-container {
+            display: flex;
+            flex-direction: row;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            color: white; /* Text color set to white */
+        }
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        th, td {
+            text-align: left;
+        }
+        select, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none; /* Remove bullet points from the list */
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .day-button {
+            border: none;
+            background: none;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 
@@ -51,29 +68,29 @@
   
     <div class="schedule-container">
         <div class="column">
-            <h2>Schedule for Gym</h2>
-            <label for="day-dropdown">Select a Day:</label>
-            <select id="day-dropdown">
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
-            </select>
-            <br><br>
-            <form id="exercise-form">
-                <label for="exercise-name">Exercise Name:</label>
-                <input type="text" id="exercise-name" required><br><br>
-                <label for="sets">Sets:</label>
-                <input type="number" id="sets" required><br><br>
-                <label for="reps">Reps:</label>
-                <input type="number" id="reps" required><br><br>
-                <button type="submit">Add Superset</button>
-            </form>
+            <h2>Days of the Week</h2>
+            <ul>
+                <li><button class="day-button" onclick="selectDay('Monday')">Monday</button></li>
+                <li><button class="day-button" onclick="selectDay('Tuesday')">Tuesday</button></li>
+                <li><button class="day-button" onclick="selectDay('Wednesday')">Wednesday</button></li>
+                <li><button class="day-button" onclick="selectDay('Thursday')">Thursday</button></li>
+                <li><button class="day-button" onclick="selectDay('Friday')">Friday</button></li>
+                <li><button class="day-button" onclick="selectDay('Saturday')">Saturday</button></li>
+                <li><button class="day-button" onclick="selectDay('Sunday')">Sunday</button></li>
+            </ul>
         </div>
         <div class="column">
+            <h2>Exercise Details</h2>
+            <label for="exercise-name">Exercise Name:</label>
+            <input type="text" id="exercise-name" required>
+            <label for="sets">Sets:</label>
+            <input type="number" id="sets" required min="0">
+            <label for="reps">Reps:</label>
+            <input type="number" id="reps" required min="0">
+            <button onclick="addSuperset()">Add Superset</button>
+        </div>
+        <div class="column">
+            <h2>Schedule</h2>
             <table id="schedule-table">
                 <thead>
                     <tr>
@@ -89,57 +106,73 @@
     </div>
 
     <script>
-        // JavaScript code for adding, displaying, and sorting supersets in a table
-        const form = document.getElementById('exercise-form');
+        // JavaScript code for adding and displaying supersets in a table
         const tableBody = document.querySelector('#schedule-table tbody');
-        let tableData = [];
+        let selectedDay = null;
+        const dataByDay = {}; // Store supersets data by day
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+        function selectDay(day) {
+            selectedDay = day;
+            updateTable();
+        }
 
-            const day = document.getElementById('day-dropdown').value;
+        function addSuperset() {
             const exerciseName = document.getElementById('exercise-name').value;
-            const sets = document.getElementById('sets').value;
-            const reps = document.getElementById('reps').value;
+            const sets = parseInt(document.getElementById('sets').value);
+            const reps = parseInt(document.getElementById('reps').value);
 
-            const rowData = {
-                day: day,
+            if (!selectedDay || !exerciseName || isNaN(sets) || isNaN(reps) || sets < 0 || reps < 0) {
+                alert('Please fill in all fields with valid data.');
+                return;
+            }
+
+            // Store the superset data by day
+            if (!dataByDay[selectedDay]) {
+                dataByDay[selectedDay] = [];
+            }
+            dataByDay[selectedDay].push({
                 exerciseName: exerciseName,
                 sets: sets,
-                reps: reps
-            };
+                reps: reps,
+            });
 
-            tableData.push(rowData);
+            // Clear the input fields
+            document.getElementById('exercise-name').value = '';
+            document.getElementById('sets').value = '';
+            document.getElementById('reps').value = '';
 
-            // Automatically sort and update the table
+            // Update the table
             updateTable();
-
-            form.reset();
-        });
+        }
 
         function updateTable() {
             // Clear the existing table
             tableBody.innerHTML = '';
 
-            // Define the desired order of days of the week
-            const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            // Display the supersets for the selected day
+            if (selectedDay && dataByDay[selectedDay]) {
+                dataByDay[selectedDay].forEach((superset, index) => {
+                    const newRow = document.createElement('tr');
 
-            // Sort the tableData array based on the order of days
-            tableData.sort((a, b) => {
-                return daysOrder.indexOf(a.day) - daysOrder.indexOf(b.day);
-            });
+                    // Display the day only for the first row
+                    if (index === 0) {
+                        newRow.innerHTML = `
+                            <td rowspan="${dataByDay[selectedDay].length}">${selectedDay}</td>
+                            <td>${superset.exerciseName}</td>
+                            <td>${superset.sets}</td>
+                            <td>${superset.reps}</td>
+                        `;
+                    } else {
+                        newRow.innerHTML = `
+                            <td>${superset.exerciseName}</td>
+                            <td>${superset.sets}</td>
+                            <td>${superset.reps}</td>
+                        `;
+                    }
 
-            // Add sorted data to the table
-            tableData.forEach((rowData) => {
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>${rowData.day}</td>
-                    <td>${rowData.exerciseName}</td>
-                    <td>${rowData.sets}</td>
-                    <td>${rowData.reps}</td>
-                `;
-                tableBody.appendChild(newRow);
-            });
+                    tableBody.appendChild(newRow);
+                });
+            }
         }
     </script>
     
