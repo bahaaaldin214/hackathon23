@@ -141,6 +141,15 @@ def generateNewUser(username, password):
 def today():
     return date.today().strftime("%d/%m/%Y")
 
+# retrieve all public workout names
+def retrievePublicWorkoutNames():
+    items = os.listdir('data\public\workouts')
+    for i in range(len(items)-1):
+        items[i] = items[i][0: len(items[i]) - len(".json")]
+    return items
+    
+
+
 # retrieve public workout object from name
 def retrievePublicWorkout(name):
     if os.path.exists(getWorkoutPath(name)):
