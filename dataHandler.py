@@ -6,7 +6,7 @@ def getUserDir(username):
     return "data\people\\"+username
 
 def getWorkoutDir(name):
-    return "data\workouts\\"+
+    return "data\workouts\\"+name
 
 personal = "\\personal.json"
 workouts = "\\workouts.json"
@@ -81,11 +81,9 @@ def today():
 # retrieve public workout from id
 def retrievePublicWorkout(name):
     if os.path.exists(getWorkoutDir(name)):
-        if os.path.exists(getUserDir(username)+personal): 
-            os.remove(getUserDir(username)+personal)
-        if os.path.exists(getUserDir(username)+workouts): 
-            os.remove(getUserDir(username)+workouts)
-        os.rmdir(getUserDir(username))
+        with open(getWorkoutDir(name), "r") as read_file:
+            data = json.load(read_file)
+            return data
 
 # retrieve private workout from name
 def retrievePrivateWorkout(name):
