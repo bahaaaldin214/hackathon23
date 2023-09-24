@@ -1,5 +1,5 @@
 import {getJson, setHomeURL, postData, getServerJson} from "./modules/getData.js";
-import { makeSpan, selector, colors } from "./modules/tools.js";
+import { makeSpan, selector, colors, getCookie } from "./modules/tools.js";
 
 import User from "./modules/user.js"
 import Display from "./modules/display.js"
