@@ -50,73 +50,98 @@
     </nav>
   
     <div class="schedule-container">
-      <div class="column">
-          <h2>Schedule for Gym</h2>
-          <label for="day-dropdown">Select a Day:</label>
-          <select id="day-dropdown">
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
-          </select>
-          <br><br>
-          <form id="exercise-form">
-              <label for="exercise-name">Exercise Name:</label>
-              <input type="text" id="exercise-name" required><br><br>
-              <label for="sets">Sets:</label>
-              <input type="number" id="sets" required><br><br>
-              <label for="reps">Reps:</label>
-              <input type="number" id="reps" required><br><br>
-              <button type="submit">Add Superset</button>
-          </form>
-      </div>
-      <div class="column">
-          <table id="schedule-table">
-              <thead>
-                  <tr>
-                      <th>Day</th>
-                      <th>Exercise</th>
-                      <th>Sets</th>
-                      <th>Reps</th>
-                  </tr>
-              </thead>
-              <tbody></tbody>
-          </table>
-      </div>
-  </div>
+        <div class="column">
+            <h2>Schedule for Gym</h2>
+            <label for="day-dropdown">Select a Day:</label>
+            <select id="day-dropdown">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+            <br><br>
+            <form id="exercise-form">
+                <label for="exercise-name">Exercise Name:</label>
+                <input type="text" id="exercise-name" required><br><br>
+                <label for="sets">Sets:</label>
+                <input type="number" id="sets" required><br><br>
+                <label for="reps">Reps:</label>
+                <input type="number" id="reps" required><br><br>
+                <button type="submit">Add Superset</button>
+            </form>
+        </div>
+        <div class="column">
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Exercise</th>
+                        <th>Sets</th>
+                        <th>Reps</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 
-  <script>
-      // JavaScript code for adding and displaying supersets in a table
-      const form = document.getElementById('exercise-form');
-      const tableBody = document.querySelector('#schedule-table tbody');
+    <script>
+        // JavaScript code for adding, displaying, and sorting supersets in a table
+        const form = document.getElementById('exercise-form');
+        const tableBody = document.querySelector('#schedule-table tbody');
+        let tableData = [];
 
-      form.addEventListener('submit', function (e) {
-          e.preventDefault();
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-          const day = document.getElementById('day-dropdown').value;
-          const exerciseName = document.getElementById('exercise-name').value;
-          const sets = document.getElementById('sets').value;
-          const reps = document.getElementById('reps').value;
+            const day = document.getElementById('day-dropdown').value;
+            const exerciseName = document.getElementById('exercise-name').value;
+            const sets = document.getElementById('sets').value;
+            const reps = document.getElementById('reps').value;
 
-          // Create a new row and populate it with the exercise information
-          const newRow = document.createElement('tr');
-          newRow.innerHTML = `
-              <td>${day}</td>
-              <td>${exerciseName}</td>
-              <td>${sets}</td>
-              <td>${reps}</td>
-          `;
+            const rowData = {
+                day: day,
+                exerciseName: exerciseName,
+                sets: sets,
+                reps: reps
+            };
 
-          // Append the row to the table
-          tableBody.appendChild(newRow);
+            tableData.push(rowData);
 
-          // Clear the form fields
-          form.reset();
-      });
-  </script>
+            // Automatically sort and update the table
+            updateTable();
+
+            form.reset();
+        });
+
+        function updateTable() {
+            // Clear the existing table
+            tableBody.innerHTML = '';
+
+            // Define the desired order of days of the week
+            const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+            // Sort the tableData array based on the order of days
+            tableData.sort((a, b) => {
+                return daysOrder.indexOf(a.day) - daysOrder.indexOf(b.day);
+            });
+
+            // Add sorted data to the table
+            tableData.forEach((rowData) => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${rowData.day}</td>
+                    <td>${rowData.exerciseName}</td>
+                    <td>${rowData.sets}</td>
+                    <td>${rowData.reps}</td>
+                `;
+                tableBody.appendChild(newRow);
+            });
+        }
+    </script>
     
 </body>
 
