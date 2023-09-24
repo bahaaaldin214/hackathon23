@@ -80,3 +80,33 @@ window.onload = async function(){
     
 }
 
+function mainTable() {
+    scheduleContainer.innerHTML = '';
+  
+    if (selectedDay !== null && selectedSupersetIndex !== null) {
+        const daySuperset = scheduleData[selectedDay][selectedSupersetIndex];
+  
+        const table = document.createElement('table');
+        table.innerHTML = `
+                 <thead>
+                     <tr>
+                         <th>Day of the Week</th>
+                         <th>Exercise</th>
+                         <th>Sets</th>
+                         <th>Reps</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     ${daySuperset.exercises.map((exercise, index) => `
+                         <tr>
+                             ${index === 0 ? `<td rowspan="${daySuperset.exercises.length}">${selectedDay}</td>` : ''}
+                             <td>${exercise.exerciseName}</td>
+                             <td>${exercise.sets}</td>
+                             <td>${exercise.reps}</td>
+                         </tr>
+                     `).join('')}
+                 </tbody>
+             `;
+        scheduleContainer.appendChild(table);
+    }
+  }
