@@ -1,54 +1,27 @@
 import {getJson, setHomeURL, postData, getServerJson} from "./modules/getData.js";
+import { makeSpan, selector, colors } from "./modules/tools.js";
 
 import User from "./modules/user.js"
 import Display from "./modules/display.js"
 
 
-function randomID(){
-    return Math.ceil(Math.random()*1000000) // get a random number betweeen 1 and 1 million
-}
-let id = randomID();
 
-function selector(...args){
-    const r = []
-    args.forEach(i => {r.push(document.querySelector(i))})
-    return r
-}
+window.onload = async function(){
 
-function makeSpan(text, className){
-    const span = document.createElement("p");
+    if(!localStorage.getItem("username")){
+        console.log(localStorage.getItem("username"))
+        window.location.href = "signin"
+    }
 
-    span.textContent =  `${text}`; //can customize furthor
+    const [askAI, textBox, chatinput, canvas, buffer] = selector("form", "#chatoutput", "#chatinput", "#canvas", "#buffer");
+    
 
-    span.classList.add(className);
-    console.log(span.class)
-    return span;
-}
 
-window.onload = function(){
-
-    const [askAI, textBox, chatinput, canvas, buffer] = selector("form", "#chatoutput", "#chatinput", "#canvas", "#buffer"),
-    colors = {
-        front: {
-            "0,255,85": "forearms",
-            "255,0,29": "shoulders",
-            "42,0,255": "chest",
-            "0,255,255": "biceps",
-            "255,255,0": "abs",
-            "255,0,170": "quads"
-        },
-        back: {
-            "255,0,16": "triceps",
-            "170,255,0": "lats",
-            "186,0,255": "glutes",
-            "255,0,216": "calves"
-        }
-    };
-
-    postData("/updateUser", {id: "myUser", password: "123Hello"}).then(async (data) => {
+    let display, user;
+    await postData("/updateUser", {id: "myUser", password: "123Hello"}).then(async (data) => {
     
         //use colors to make muscle group object with informations on it
-        const user = new User(id, data, colors);
+        user = new User("1", data, colors);
         
 
         // fetch("/static/assets/visual.png")
@@ -72,14 +45,19 @@ window.onload = function(){
         const presentable = new Image();
         presentable.src  = "/static/assets/presentable.png";
 
-        const display = new Display(canvas, buffer, colors, visual, presentable);
+        display = new Display(canvas, buffer, colors, visual, presentable);
         
-        window.addEventListener("mousemove", (e) => display.getPixel(e))
+        
 
     });
     
-    let aiBusy = false;
+    let selectedMuscle = ""
+    window.addEventListener("mousedown", (e) => {
+        selectedMuscle = display.getPixel(e)
+        console.log(colors.front[selectedMuscle] || colors.back[selectedMuscle])
+    })
 
+    let aiBusy = false;
 
     function pushPrompt(e){
         aiBusy = true;
@@ -93,25 +71,21 @@ window.onload = function(){
         .then(response => response.json())
         .then(r => {
             
-            textBox.appendChild(makeSpan(r.msg, "leftAlign"));
-            aiBusy = false;
+            textBox.appendChild(makeSpan(r.msg, "leftAlign")); // put the reply in the text box
+            aiBusy = false; //can make another request 
         });
 
-        chatoutput.scrollTop = chatoutput.scrollHeight;
+        chatoutput.scrollTop = chatoutput.scrollHeight; //automatically scroll down 
         return false
     
     }
 
     askAI.onsubmit = function(e){
-        if(!aiBusy){
+        if(!aiBusy){ //only one request at a time
             pushPrompt(e)
         }
     }
 
-    // askAI.addEventListener("submit", function(e){
-    //     console.log(textBox)
-
-    // })
     
     
 }

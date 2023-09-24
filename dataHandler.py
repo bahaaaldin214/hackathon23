@@ -2,6 +2,7 @@
 # TODO test all functions and ensure proper functioning
 # TODO function for changing user personal values
 # TODO function for retrieving all names of different workouts
+#TODO use new useJSON method isntead of writing out the whole thing iun every function 
 
 # example 1: publishing a workout object to public workout directory if it doesnt already exist
 # dataHandler.publishPublicWorkout("name", "workout object")
@@ -28,26 +29,34 @@ from datetime import date
 
 # local intended function for getting relative path of user directory
 def getUserDir(username):
-    return "data\\people\\"+username
+    return 'data/people/' +username
 
 # local intended function for getting relative path of workout directory
 def getWorkoutPath(name):
-    return "data\\public\\workouts\\"+name+".json"
+    return "data/public/workouts/"+name+".json"
 
 # file names
-personal = "\\personal.json"
-workouts = "\\workouts.json"
+personal = "/personal.json"
+workouts = "/workouts.json"
+
+
+def useJson(src):
+    with open(src) as json_file:
+        data = json.load(json_file)
+        return data
 
 # returns JSON object of user
 def retrieveUserPersonal(username, password):
-    data = json.read(getUserDir(username)+personal)
-    if password == data[password]:
+    
+    data = useJson(getUserDir(username)+personal)
+
+    if password == data["password"]:
         return data
     
 # validate user
 def validate(username, password):
-    data = json.read(getUserDir(username)+personal)
-    if password == data[password]:
+    data = useJson(getUserDir(username)+personal)
+    if password == data["password"]:
         return True
     else: 
         return False
@@ -55,7 +64,7 @@ def validate(username, password):
 # returns JSON object of user's workouts
 def retrieveUserWorkouts(username, password): 
     if(validate(username, password)):
-        data = json.read(getUserDir(username)+workouts)
+        data = useJson(getUserDir(username)+workouts)
         return data
     return None
 
@@ -79,8 +88,8 @@ def updateUserValue(username, password, field, data):
 def writePrivateWorkout(username, password, workout):
     if(validate(username, password)):
         data = None
-        with open(getUserDir(username)+workouts, "r") as read_file:
-            data = json.load(read_file)
+        
+        data = useJson(getUserDir(username)+workouts)
         if data != None:
             data.update(workout)
             with open(getUserDir(username)+workouts, "w") as write_file:

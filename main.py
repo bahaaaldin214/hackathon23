@@ -43,20 +43,37 @@ def updateUser():
  
     id = user["id"]
     password = user["password"]
-    # data = json.read("people.json")
-    # if(password == data[id].password)
-    #json file
-    #FIND IND in people.json
+    #TODO
+    
+@app.route('/scheduleData', methods=["POST"])
+def scheduleData():
+    data = request.get_json()
+ 
+    username = data["username"]
+    password = data["password"]
+    privacy = data["privacy"]
+    workout = data["scheduleData"]
+    name = data["name"]
 
-    #check if it already exists
-    #save new workout to json file
+    if privacy == "private":
+        return dataHandler.writePrivateWorkout(username, password, workout)
+    else: 
+        return dataHandler.publishPublicWorkout(name, workout)
+    
 
-    return {
-        "streak": 1,
-        "level": 1,
-        "lastDay": "2020-1-34",
-        "other": {},
-    }
+
+@app.route("/trySignIn", methods=["POST"])
+def trySignIn():
+    user = request.get_json()
+ 
+    username = user["username"]
+    password = user["password"]
+
+    print(username, password)
+
+    recieved = dataHandler.retrieveUserPersonal(username, password)
+
+    return recieved
 
 @app.route('/askAI', methods=["POST"])
 def askAI():

@@ -8,13 +8,16 @@ export default class Display {
 
         this.faceFront = true;
 
-        this.colors = colors
+        this.colors = {
+            back: {},
+            front: {}
+        }
         
         for (let color in colors.front) {
             let src = "/static/assets/"+colors.front[color]+".png";
             let image = new Image()
             image.src = src;
-            colors.front[color] = image;
+            this.colors.front[color] = image;
 
         }
         
@@ -22,7 +25,7 @@ export default class Display {
             let src = "/static/assets/"+colors.back[color]+".png";
             let image = new Image()
             image.src = src;
-            colors.back[color] = image;
+            this.colors.back[color] = image;
         }
 
         let images = 0;
@@ -77,7 +80,8 @@ export default class Display {
 
         if(this.colors.front[str]){
             
-            this.image(context, this.colors.front[str])
+            this.image(context, this.colors.front[str]);
+            return str;
             
         } else {
             this.image(context, this.blank)
