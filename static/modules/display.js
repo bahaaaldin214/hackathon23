@@ -24,5 +24,4 @@ export default class Display {
     getPixel(x, y) {
         return "limb"
     }
-    
-   
+}
