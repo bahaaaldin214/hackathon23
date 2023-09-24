@@ -83,6 +83,7 @@ def updateUserValue(username, password, field, data):
     user = retrieveUserPersonal(username, password)
     if user[field] != None and data != None:
         user[field] = data
+        return 200
 
 # save user's workout
 def writePrivateWorkout(username, password, workout):
@@ -94,6 +95,7 @@ def writePrivateWorkout(username, password, workout):
             data.update(workout)
             with open(getUserDir(username)+workouts, "w") as write_file:
                 json.dump(data, write_file)
+                return 200
 
 # delete user
 def deleteUser(username):
@@ -103,9 +105,10 @@ def deleteUser(username):
         if os.path.exists(getUserDir(username)+workouts): 
             os.remove(getUserDir(username)+workouts)
         os.rmdir(getUserDir(username))
+        return 200
 
 # generate new user
-def createUser(username, password):
+def createUser(username, password): #TODO return 200 somwhere
     if not os.path.exists(getUserDir(username)):
         os.mkdir(getUserDir(username))
         with open(getUserDir(username)+personal, "x") as writefile:
@@ -153,3 +156,4 @@ def publishPublicWorkout(name, workout):
         f.close
     with open(getWorkoutPath(name), "w") as write_file:
         json.dump(workout, write_file)
+        return 200

@@ -4,7 +4,7 @@ import { postData } from "./modules/getData.js";
 const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
-const [addSupersetE, addExerciseE] = ["addSuperset", "addExercise"].map(e => document.getElementById(e))
+const [name, addSupersetE, addExerciseE, submit, privacy] = ["name", "addSuperset", "addExercise", "submit", "privacy"].map(e => document.getElementById(e))
 
 const Days = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 let selectedDay = null;
@@ -17,6 +17,7 @@ function selectDay(day) {
 
     document.getElementById(day).style.background = "#ccc"
     selectedDay = Days.findIndex(e => e == day);
+
 
     selectedSupersetIndex = null;
     updateTable();
@@ -40,7 +41,7 @@ function addSuperset() {
         exercises: [],
     };
 
-
+    console.log(scheduleData, selectedDay)
     scheduleData[selectedDay].push(newSuperset);
 
     selectedSupersetIndex = scheduleData[selectedDay].length - 1;
@@ -134,3 +135,12 @@ function updateSupersetList() {
     }
 }
 
+submit.onclick = function(){
+    postData("/postSchedule", {
+        username: localStorage.getItem("username"),
+        password: localStorage.getItem("password"),
+        name: name.value,
+        privacy: privacy.value,
+        scheduleData
+    })
+}

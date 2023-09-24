@@ -45,7 +45,7 @@ def updateUser():
     password = user["password"]
     #TODO
     
-@app.route('/scheduleData', methods=["POST"])
+@app.route('/postSchedule', methods=["POST"])
 def scheduleData():
     data = request.get_json()
  
@@ -56,9 +56,9 @@ def scheduleData():
     name = data["name"]
 
     if privacy == "private":
-        return dataHandler.writePrivateWorkout(username, password, workout)
+        return dataHandler.writePrivateWorkout(username, password, workout), 200 #assumes success from handler
     else: 
-        return dataHandler.publishPublicWorkout(name, workout)
+        return dataHandler.publishPublicWorkout(name, workout), 200 #assumes success from handler
     
 
 
