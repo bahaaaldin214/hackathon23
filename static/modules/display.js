@@ -56,7 +56,7 @@ export default class Display {
         
     }
 
-    button(name, color, call){
+    button(name, color, call, image=""){
         const w = 500, h = 200;
         const button = {
             x: Object.keys(this.buttons)*w,
@@ -65,7 +65,8 @@ export default class Display {
             h,
             color,
             name,
-            call
+            call,
+            image
         }
         this.buttons[color] = button
 
@@ -82,6 +83,7 @@ export default class Display {
         context.font = "100px Verdana";
         context.fillText(name, x, y+100);
 
+        // context.drawImage(x, y, w, h)
     }
 
 

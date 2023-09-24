@@ -1,17 +1,27 @@
 // JavaScript code for adding and displaying supersets and exercises
 import { postData } from "./modules/getData.js";
 
-const scheduleContainer = document.getElementById('schedule-container2');
+const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
-const [addSupersetE, addExerciseE, toggleScheduleE] = ["addSuperset", "addExercise", "toggleSchedule"].map(e => document.getElementById(e))
+const [addSupersetE, addExerciseE, toggleScheduleE, up, down, builder, manage] = ["addSuperset", "addExercise", "toggleSchedule", "up", "down", "builder", "manage"].map(e => document.getElementById(e))
 const scheduleSubmitButton = document.querySelector("#submit");
 const exerciseNameBox = document.getElementById("exercise-name");
 const exerciseSetBox = document.getElementById("sets");
 const exerciseRepBox = document.getElementById("reps");
 const privacySelector = document.getElementById("privacy");
-
+9
 const Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+down.onclick = () => {
+    builder.style.display = "flex";
+    console.log("its clicking")
+}
+up.onclick = () => {
+    builder.style.display = "none";
+    console.log("its clicking")
+}
+
 let selectedDay = null;
 let selectedSupersetIndex = null;
 const scheduleData = [[],[],[],[],[],[],[]]; // Store schedule data for different day-superset combinations
@@ -105,7 +115,7 @@ function updateTable() {
                  <tbody>
                      ${daySuperset.exercises.map((exercise, index) => `
                          <tr>
-                             ${index === 0 ? `<td rowspan="${daySuperset.exercises.length}">${selectedDay}</td>` : ''}
+                             ${index === 0 ? `<td rowspan="${daySuperset.exercises.length}">${Days[selectedDay]}</td>` : ''}
                              <td>${exercise.exerciseName}</td>
                              <td>${exercise.sets}</td>
                              <td>${exercise.reps}</td>
@@ -144,14 +154,6 @@ function updateSupersetList() {
     }
 }
 
-// function toggleSchedule() {
-//     if (scheduleContainer.style.display === 'block') {
-//         scheduleContainer.style.display = 'none'; 
-//     } else {
-        scheduleContainer.style.display = 'block'; 
-//     }
-// }
-// toggleScheduleE.onclick = toggleSchedule;
 
 scheduleSubmitButton.addEventListener("click", () => {
     console.log("workout submitted");
