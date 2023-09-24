@@ -4,6 +4,8 @@ import { postData } from "./modules/getData.js";
 const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
 const supersetList = document.getElementById('superset-list');
+"addSuperset"
+
 let selectedDay = null;
 let selectedSupersetIndex = null;
 const scheduleData = {}; // Store schedule data for different day-superset combinations
