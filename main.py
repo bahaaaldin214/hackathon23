@@ -36,6 +36,12 @@ def recieveWorkout(data):
 
     return "Saved"
 
+@app.route('/createAccount', methods=["POST"])
+def createAccount():
+    data = request.get_json()
+    user = data["username"]
+    password = data["password"]
+    return dataHandler.createUser(user, password)
 
 @app.route('/updateUser', methods=["POST"])
 def updateUser():
@@ -45,7 +51,7 @@ def updateUser():
     password = user["password"]
     #TODO
     
-@app.route('/scheduleData', methods=["POST"])
+@app.route('/postSchedule', methods=["POST"])
 def scheduleData():
     data = request.get_json()
     username = data["username"]
@@ -57,7 +63,7 @@ def scheduleData():
     if privacy == "private":
         return dataHandler.writePrivateWorkout(username, password, name, workout)
     else: 
-        return dataHandler.publishPublicWorkout(name, workout)
+        return dataHandler.publishPublicWorkout(name, workout), 200 #assumes success from handler
     
 
 

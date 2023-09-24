@@ -91,12 +91,12 @@ def writePrivateWorkout(username, password, name, workout):
     if(validate(username, password)):
         data = useJson(getUserDir(username)+workouts)
         if data != None:
-            data.add({name:workout})
+            data.update({name:workout})
             with open(getUserDir(username)+workouts, "w") as write_file:
                 json.dump(data, write_file)
             return name
         else:
-            data = {str(name):workout}
+            data = {{name:workout}}
             with open(getUserDir(username)+workouts, "w") as write_file:
                 json.dump(data, write_file)
             return name
@@ -110,6 +110,7 @@ def deleteUser(username):
         if os.path.exists(getUserDir(username)+workouts): 
             os.remove(getUserDir(username)+workouts)
         os.rmdir(getUserDir(username))
+        return 200
 
 # generate new user
 def createUser(username, password):
@@ -119,6 +120,9 @@ def createUser(username, password):
             json.dump(generateNewUser(username, password),writefile)
         with open(getUserDir(username)+workouts, "x") as writefile:
             json.dump({},writefile)
+        return 200
+    
+    return 500
 
 # geneate new user personal JSON
 def generateNewUser(username, password):
