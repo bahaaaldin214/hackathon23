@@ -41,7 +41,7 @@ def createAccount():
     data = request.get_json()
     user = data["username"]
     password = data["password"]
-    return dataHandler.createUser(user, password)
+    return dataHandler.createUser(user, password), 200
 
 @app.route('/updateUser', methods=["POST"])
 def updateUser():
