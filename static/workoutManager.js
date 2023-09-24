@@ -9,6 +9,7 @@ let selectedSupersetIndex = null;
 const scheduleData = {}; // Store schedule data for different day-superset combinations
 
 function selectDay(day) {
+    console.log(day)
     days.forEach(day => day.style.background = "none");
 
     document.getElementById(day).style.background = "#ccc"
@@ -17,6 +18,12 @@ function selectDay(day) {
     updateTable();
     updateSupersetList();
 }
+
+days.forEach(day => {
+    day.onclick = function(){
+        selectDay(day.id)
+    }
+})
 
 function addSuperset() {
     if (selectedDay === null) {
