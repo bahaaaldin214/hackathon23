@@ -1,5 +1,9 @@
 // JavaScript code for adding and displaying supersets and exercises
 import { postData } from "./modules/getData.js";
+import { getCookie } from "./modules/tools.js";
+
+const username = getCookie("username");
+const password = getCookie("password");
 
 const scheduleContainer = document.getElementById('schedule-container');
 const days = document.querySelectorAll(".day-button")
@@ -10,7 +14,8 @@ const exerciseNameBox = document.getElementById("exercise-name");
 const exerciseSetBox = document.getElementById("sets");
 const exerciseRepBox = document.getElementById("reps");
 const privacySelector = document.getElementById("privacy");
-9
+const workoutNameBox = document.getElementById("name");
+
 const Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 down.onclick = () => {
@@ -24,7 +29,7 @@ up.onclick = () => {
 
 let selectedDay = null;
 let selectedSupersetIndex = null;
-const scheduleData = [[],[],[],[],[],[],[]]; // Store schedule data for different day-superset combinations
+const scheduleData = [[], [], [], [], [], [], []]; // Store schedule data for different day-superset combinations
 
 function selectDay(day) {
 
@@ -39,7 +44,7 @@ function selectDay(day) {
 }
 
 days.forEach(day => {
-    day.onclick = function(){
+    day.onclick = function () {
         selectDay(day.id)
     }
 })
@@ -138,7 +143,7 @@ function updateSupersetList() {
     supersetList.innerHTML = '';
 
     // Display the list of supersets with buttons
-    if ( scheduleData[selectedDay]) {
+    if (scheduleData[selectedDay]) {
         const supersetsForDay = scheduleData[selectedDay];
         for (let i = 0; i < supersetsForDay.length; i++) {
             const superset = supersetsForDay[i];
@@ -157,12 +162,17 @@ function updateSupersetList() {
 
 scheduleSubmitButton.addEventListener("click", () => {
     console.log("workout submitted");
-    postData("/scheduleData", {
-        "username": "testuser",
-        "password": "testpassword",
-        "privacy" : privacySelector.value,
-        "workout" : scheduleData,
-        "name" : exerciseNameBox.innerText
-    });
+    if (username != "") {
+        postData("/postSchedule", {
+            "username": username,
+            "password": password,
+            "privacy": privacySelector.value,
+            "workout": scheduleData,
+            "name": workoutNameBox.value
+        });
+    }
+    else{
+        confirm("Please sign in to save workouts");
+    }
 })
 
