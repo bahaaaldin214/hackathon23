@@ -17,7 +17,7 @@ function selectDay(day) {
 
     document.getElementById(day).style.background = "#ccc"
     selectedDay = Days.findIndex(e => e == day);
-    console.log(selectedDay)
+
     selectedSupersetIndex = null;
     updateTable();
     updateSupersetList();
