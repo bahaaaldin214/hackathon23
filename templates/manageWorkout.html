@@ -11,16 +11,25 @@
     <style>
         /* Add your CSS styling here */
         .schedule-container {
-            display: none;
+            display: flex;
             flex-direction: row;
             margin: 20px;
             padding: 20px;
             border: 1px solid #ccc;
             color: white; /* Text color set to white */
+        
         }
+
+        #builder { 
+            display: none;
+        }
+
         .column {
             flex: 1;
             padding: 10px;
+        }
+        button {
+            max-height: 100px;
         }
         table {
             width: 100%;
@@ -69,10 +78,23 @@
             <a class="link" id = "signinlink" href="/signin">Sign In</a>
         </div>
     </nav>
-    
-    <button id="toggleSchedule">Create Workout Schedule</button>
-
-    <div class="schedule-container" id="schedule-container">
+    <div id = "manage" class="schedule-container">
+        <div class="column">
+            <label for="name">Name:</label>
+            <input  id="name" required>
+            <label for="privacy">Select privacy:</label>
+            <select id="privacy">
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+            </select>
+            <button id="submit">Submit Changes</button>
+        </div>
+        <div class="column"></div>
+            <button id="down">Select a Pre-made workout</button>
+            <button id="up">Make a new workout </button>
+            
+    </div>
+    <div id = "builder" class="schedule-container">
         <div class="column">
             <h2>Days of the Week</h2>
             <ul>
@@ -102,18 +124,10 @@
         </div>
         <div class="column">
             <h2>Schedule</h2>
-            <div id="schedule-container2"></div>
+            <div id="schedule-container"></div>
         </div>
     </div>
-
-    <label for="name">Name:</label>
-    <input  id="name" required>
-    <label for="privacy">Select privacy:</label>
-    <select id="privacy">
-        <option value="public">Public</option>
-        <option value="private">Private</option>
-    </select>
-    <button id="submit">Submit Changes</button>
+    
 </body>
 
 </html>
