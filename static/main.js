@@ -23,7 +23,7 @@ window.onload = async function(){
         window.location.href = "signin"
     }
 
-    const [askAI, textBox, chatinput, canvas, buffer] = selector("form", "#chatoutput", "#chatinput", "#canvas", "#buffer");
+    const [askAI, textBox, chatinput, canvas, buffer, today] = selector("form", "#chatoutput", "#chatinput", "#canvas", "#buffer", "#today");
 
     let display, user;
     await postData("/updateUser", {id: "myUser", password: "123Hello"}).then(async (data) => {
@@ -38,13 +38,12 @@ window.onload = async function(){
         presentable.src  = "/static/assets/presentable.png";
 
         display = new Display(canvas, buffer, colors, visual, presentable);
-
+        mainTable(today)
     });
     
     let selectedMuscle = ""
     window.addEventListener("mousedown", (e) => {
         selectedMuscle = display.getPixel(e)
-        console.log(colors.front[selectedMuscle] || colors.back[selectedMuscle])
     })
 
     let aiBusy = false;
@@ -80,13 +79,12 @@ window.onload = async function(){
     
 }
 
-function mainTable() {
-    scheduleContainer.innerHTML = '';
+function mainTable(container) {
   
-    if (selectedDay !== null && selectedSupersetIndex !== null) {
-        const daySuperset = scheduleData[selectedDay][selectedSupersetIndex];
-  
+        const data = [[], [], [], [{"day": 3, "exercises": [{"exerciseName": "23", "sets": 2, "reps": 1}]}, {"day": 3, "exercises": [{"exerciseName": "ads ", "sets": 23, "reps": 1}, {"exerciseName": "ads ", "sets": 2, "reps": 2}]}], [], [], []]
         const table = document.createElement('table');
+        const day = data[3]
+        console.log(data[day])
         table.innerHTML = `
                  <thead>
                      <tr>
@@ -97,16 +95,17 @@ function mainTable() {
                      </tr>
                  </thead>
                  <tbody>
-                     ${daySuperset.exercises.map((exercise, index) => `
-                         <tr>
-                             ${index === 0 ? `<td rowspan="${daySuperset.exercises.length}">${selectedDay}</td>` : ''}
-                             <td>${exercise.exerciseName}</td>
-                             <td>${exercise.sets}</td>
-                             <td>${exercise.reps}</td>
-                         </tr>
-                     `).join('')}
+                   
+                 ${day[0].exercises.map((exercise, index) => `
+                 <tr>
+                     ${index === 0 ? `<td rowspan="${day[0].exercises.length}">${"Sunday"}</td>` : ''}
+                     <td>${exercise.exerciseName}</td>
+                     <td>${exercise.sets}</td>
+                     <td>${exercise.reps}</td>
+                 </tr>
+             `).join('')}
+                     
                  </tbody>
              `;
-        scheduleContainer.appendChild(table);
-    }
+             container.appendChild(table);
   }
